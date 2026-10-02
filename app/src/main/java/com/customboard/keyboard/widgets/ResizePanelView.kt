@@ -42,12 +42,12 @@ class ResizePanelView @JvmOverloads constructor(
         setPadding(context.dpToPx(16f).toInt(), context.dpToPx(10f).toInt(),
             context.dpToPx(16f).toInt(), context.dpToPx(10f).toInt())
 
-        addLabelled(heightLabel, heightBar, 50, 160, prefs.keyboardHeightPercent) { value ->
+        addLabelled(heightLabel, heightBar, MIN_HEIGHT, MAX_HEIGHT, prefs.keyboardHeightPercent) { value ->
             prefs.keyboardHeightPercent = value
             updateLabels()
             listener?.onKeyboardMetricsChanged()
         }
-        addLabelled(paddingLabel, paddingBar, 0, 72, prefs.bottomPaddingDp) { value ->
+        addLabelled(paddingLabel, paddingBar, MIN_PADDING, MAX_PADDING, prefs.bottomPaddingDp) { value ->
             prefs.bottomPaddingDp = value
             updateLabels()
             listener?.onKeyboardMetricsChanged()
@@ -63,7 +63,7 @@ class ResizePanelView @JvmOverloads constructor(
             setOnClickListener {
                 prefs.keyboardHeightPercent = Defaults.KEYBOARD_HEIGHT
                 prefs.bottomPaddingDp = Defaults.BOTTOM_PADDING
-                heightBar.progress = prefs.keyboardHeightPercent - 50
+                heightBar.progress = prefs.keyboardHeightPercent - MIN_HEIGHT
                 paddingBar.progress = prefs.bottomPaddingDp
                 updateLabels()
                 listener?.onKeyboardMetricsChanged()
@@ -128,5 +128,13 @@ class ResizePanelView @JvmOverloads constructor(
             it.progressTintList = android.content.res.ColorStateList.valueOf(theme.accent)
             it.thumbTintList = android.content.res.ColorStateList.valueOf(theme.accent)
         }
+    }
+
+    private companion object {
+        // Must match the clamps in PreferencesManager.
+        const val MIN_HEIGHT = 60
+        const val MAX_HEIGHT = 170
+        const val MIN_PADDING = 0
+        const val MAX_PADDING = 48
     }
 }

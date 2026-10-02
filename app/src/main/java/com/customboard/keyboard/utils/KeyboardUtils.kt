@@ -8,6 +8,7 @@ import android.os.Build
 import android.provider.Settings
 import android.text.InputType
 import android.view.inputmethod.EditorInfo
+import com.customboard.keyboard.R
 import android.view.inputmethod.InputMethodManager
 
 /** IME state helpers plus EditorInfo interpretation. */
@@ -114,18 +115,19 @@ object KeyboardUtils {
             (inputType and InputType.TYPE_TEXT_FLAG_CAP_WORDS) != 0
     }
 
-    /** Label shown on the enter key for the given editor. */
-    fun enterKeyLabel(info: EditorInfo?): String {
-        val action = (info?.imeOptions ?: 0) and EditorInfo.IME_MASK_ACTION
-        return when (action) {
-            EditorInfo.IME_ACTION_GO -> "Go"
-            EditorInfo.IME_ACTION_SEARCH -> "Search"
-            EditorInfo.IME_ACTION_SEND -> "Send"
-            EditorInfo.IME_ACTION_NEXT -> "Next"
-            EditorInfo.IME_ACTION_DONE -> "Done"
-            EditorInfo.IME_ACTION_PREVIOUS -> "Prev"
-            else -> ""
+    /** Localised label shown on the enter key for the given editor. */
+    fun enterKeyLabel(context: Context, info: EditorInfo?): String {
+        if (hasNoEnterAction(info)) return ""
+        val labelRes = when (editorAction(info)) {
+            EditorInfo.IME_ACTION_GO -> R.string.key_go
+            EditorInfo.IME_ACTION_SEARCH -> R.string.key_search
+            EditorInfo.IME_ACTION_SEND -> R.string.key_send
+            EditorInfo.IME_ACTION_NEXT -> R.string.key_next
+            EditorInfo.IME_ACTION_DONE -> R.string.key_done
+            EditorInfo.IME_ACTION_PREVIOUS -> R.string.key_previous
+            else -> return ""
         }
+        return context.getString(labelRes)
     }
 
     fun editorAction(info: EditorInfo?): Int =

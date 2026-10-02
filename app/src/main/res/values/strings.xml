@@ -687,4 +687,10 @@
     <string name="setup_done_action">Open settings</string>
     <string name="about_privacy">Privacy</string>
     <string name="about_privacy_summary">No analytics, no tracking, nothing leaves the device unless you run a cloud AI action.</string>
+    <string name="key_go">Go</string>
+    <string name="key_search">Search</string>
+    <string name="key_send">Send</string>
+    <string name="key_next">Next</string>
+    <string name="key_done">Done</string>
+    <string name="key_previous">Prev</string>
 </resources>
