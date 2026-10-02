@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Themes -->
+    <string-array name="theme_entries">
+        <item>Light (Gboard)</item>
+        <item>Dark (Gboard)</item>
+        <item>AMOLED black</item>
+        <item>Material You</item>
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Purple</item>
+        <item>Red</item>
+        <item>Ocean</item>
+        <item>Sunset gradient</item>
+        <item>Forest</item>
+        <item>Candy</item>
+        <item>Monochrome</item>
+        <item>Midnight blue</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>amoled</item>
+        <item>material_you</item>
+        <item>blue</item>
+        <item>green</item>
+        <item>purple</item>
+        <item>red</item>
+        <item>ocean</item>
+        <item>sunset</item>
+        <item>forest</item>
+        <item>candy</item>
+        <item>mono</item>
+        <item>midnight</item>
+        <item>custom</item>
+    </string-array>
+
+    <!-- Clipboard retention -->
+    <string-array name="clipboard_retention_entries">
+        <item>1 hour</item>
+        <item>6 hours</item>
+        <item>12 hours</item>
+        <item>24 hours (default)</item>
+        <item>3 days</item>
+        <item>7 days</item>
+        <item>30 days</item>
+        <item>Forever</item>
+    </string-array>
+    <string-array name="clipboard_retention_values">
+        <item>1</item>
+        <item>6</item>
+        <item>12</item>
+        <item>24</item>
+        <item>72</item>
+        <item>168</item>
+        <item>720</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="clipboard_max_entries">
+        <item>50 clips</item>
+        <item>100 clips</item>
+        <item>250 clips</item>
+        <item>500 clips (default)</item>
+    </string-array>
+    <string-array name="clipboard_max_values">
+        <item>50</item>
+        <item>100</item>
+        <item>250</item>
+        <item>500</item>
+    </string-array>
+
+    <!-- Key shape -->
+    <string-array name="key_shape_entries">
+        <item>Rounded rectangle</item>
+        <item>Pill</item>
+        <item>Square</item>
+        <item>Circle</item>
+        <item>Borderless (flat)</item>
+    </string-array>
+    <string-array name="key_shape_values">
+        <item>rounded</item>
+        <item>pill</item>
+        <item>square</item>
+        <item>circle</item>
+        <item>flat</item>
+    </string-array>
+
+    <!-- Fonts -->
+    <string-array name="font_entries">
+        <item>System default</item>
+        <item>Sans serif</item>
+        <item>Sans serif medium</item>
+        <item>Sans serif condensed</item>
+        <item>Serif</item>
+        <item>Monospace</item>
+        <item>Casual</item>
+    </string-array>
+    <string-array name="font_values">
+        <item>default</item>
+        <item>sans-serif</item>
+        <item>sans-serif-medium</item>
+        <item>sans-serif-condensed</item>
+        <item>serif</item>
+        <item>monospace</item>
+        <item>casual</item>
+    </string-array>
+
+    <!-- One handed -->
+    <string-array name="one_handed_entries">
+        <item>Off</item>
+        <item>Left</item>
+        <item>Right</item>
+    </string-array>
+    <string-array name="one_handed_values">
+        <item>off</item>
+        <item>left</item>
+        <item>right</item>
+    </string-array>
+
+    <!-- Sound profiles -->
+    <string-array name="sound_profile_entries">
+        <item>System click</item>
+        <item>Soft tick</item>
+        <item>Mechanical</item>
+        <item>Typewriter</item>
+        <item>Bubble</item>
+    </string-array>
+    <string-array name="sound_profile_values">
+        <item>system</item>
+        <item>soft</item>
+        <item>mechanical</item>
+        <item>typewriter</item>
+        <item>bubble</item>
+    </string-array>
+
+    <!-- Long press delay -->
+    <string-array name="long_press_entries">
+        <item>Fast (200 ms)</item>
+        <item>Normal (300 ms)</item>
+        <item>Relaxed (450 ms)</item>
+        <item>Slow (700 ms)</item>
+    </string-array>
+    <string-array name="long_press_values">
+        <item>200</item>
+        <item>300</item>
+        <item>450</item>
+        <item>700</item>
+    </string-array>
+
+    <string-array name="key_repeat_entries">
+        <item>Slow</item>
+        <item>Normal</item>
+        <item>Fast</item>
+    </string-array>
+    <string-array name="key_repeat_values">
+        <item>90</item>
+        <item>55</item>
+        <item>30</item>
+    </string-array>
+
+    <!-- Languages -->
+    <string-array name="language_entries">
+        <item>English (US) · QWERTY</item>
+        <item>English (UK) · QWERTY</item>
+        <item>اردو · Urdu</item>
+        <item>العربية · Arabic</item>
+        <item>हिन्दी · Hindi</item>
+        <item>Français · AZERTY</item>
+        <item>Deutsch · QWERTZ</item>
+        <item>Español · QWERTY</item>
+        <item>English · Dvorak</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>en_US</item>
+        <item>en_GB</item>
+        <item>ur</item>
+        <item>ar</item>
+        <item>hi</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>es</item>
+        <item>dvorak</item>
+    </string-array>
+
+    <!-- AI models -->
+    <string-array name="ai_model_entries">
+        <item>Gemini 2.5 Flash (fast, recommended)</item>
+        <item>Gemini 2.5 Flash Lite (fastest)</item>
+        <item>Gemini 2.5 Pro (highest quality)</item>
+        <item>Gemini 2.0 Flash</item>
+        <item>Gemini 1.5 Flash</item>
+    </string-array>
+    <string-array name="ai_model_values">
+        <item>gemini-2.5-flash</item>
+        <item>gemini-2.5-flash-lite</item>
+        <item>gemini-2.5-pro</item>
+        <item>gemini-2.0-flash</item>
+        <item>gemini-1.5-flash</item>
+    </string-array>
+
+    <!-- AI tones -->
+    <string-array name="ai_tone_entries">
+        <item>Professional</item>
+        <item>Friendly</item>
+        <item>Formal</item>
+        <item>Casual</item>
+        <item>Confident</item>
+        <item>Polite</item>
+        <item>Funny</item>
+        <item>Poetic</item>
+    </string-array>
+    <string-array name="ai_tone_values">
+        <item>professional</item>
+        <item>friendly</item>
+        <item>formal</item>
+        <item>casual</item>
+        <item>confident</item>
+        <item>polite</item>
+        <item>funny</item>
+        <item>poetic</item>
+    </string-array>
+
+    <!-- Translation targets (ML Kit on-device + Gemini) -->
+    <string-array name="translate_entries">
+        <item>English</item>
+        <item>Urdu</item>
+        <item>Arabic</item>
+        <item>Hindi</item>
+        <item>Spanish</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Chinese</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Russian</item>
+        <item>Portuguese</item>
+        <item>Turkish</item>
+        <item>Italian</item>
+        <item>Indonesian</item>
+        <item>Bengali</item>
+    </string-array>
+    <string-array name="translate_values">
+        <item>en</item>
+        <item>ur</item>
+        <item>ar</item>
+        <item>hi</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>zh</item>
+        <item>ja</item>
+        <item>ko</item>
+        <item>ru</item>
+        <item>pt</item>
+        <item>tr</item>
+        <item>it</item>
+        <item>id</item>
+        <item>bn</item>
+    </string-array>
+
+    <!-- Toolbar actions (ids map to ToolbarActions.kt) -->
+    <string-array name="toolbar_entries">
+        <item>@string/toolbar_ai</item>
+        <item>@string/toolbar_clipboard</item>
+        <item>@string/toolbar_emoji</item>
+        <item>@string/toolbar_voice</item>
+        <item>@string/toolbar_gif</item>
+        <item>@string/toolbar_sticker</item>
+        <item>@string/toolbar_translate</item>
+        <item>@string/toolbar_search</item>
+        <item>@string/toolbar_theme</item>
+        <item>@string/toolbar_text_tools</item>
+        <item>@string/toolbar_cursor</item>
+        <item>@string/toolbar_select_all</item>
+        <item>@string/toolbar_copy</item>
+        <item>@string/toolbar_cut</item>
+        <item>@string/toolbar_paste</item>
+        <item>@string/toolbar_undo</item>
+        <item>@string/toolbar_redo</item>
+        <item>@string/toolbar_one_handed</item>
+        <item>@string/toolbar_floating</item>
+        <item>@string/toolbar_split</item>
+        <item>@string/toolbar_resize</item>
+        <item>@string/toolbar_number_row</item>
+        <item>@string/toolbar_incognito</item>
+        <item>@string/toolbar_contacts</item>
+        <item>@string/toolbar_settings</item>
+    </string-array>
+    <string-array name="toolbar_values">
+        <item>ai</item>
+        <item>clipboard</item>
+        <item>emoji</item>
+        <item>voice</item>
+        <item>gif</item>
+        <item>sticker</item>
+        <item>translate</item>
+        <item>search</item>
+        <item>theme</item>
+        <item>text_tools</item>
+        <item>cursor</item>
+        <item>select_all</item>
+        <item>copy</item>
+        <item>cut</item>
+        <item>paste</item>
+        <item>undo</item>
+        <item>redo</item>
+        <item>one_handed</item>
+        <item>floating</item>
+        <item>split</item>
+        <item>resize</item>
+        <item>number_row</item>
+        <item>incognito</item>
+        <item>contacts</item>
+        <item>settings</item>
+    </string-array>
+
+</resources>

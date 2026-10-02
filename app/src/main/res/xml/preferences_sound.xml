@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/settings_sound">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_sound"
+            android:title="@string/pref_sound_title" />
+
+        <com.customboard.keyboard.settings.SeekBarWithValuePreference
+            android:defaultValue="50"
+            android:dependency="pref_sound"
+            android:key="pref_sound_volume"
+            android:max="100"
+            android:title="@string/pref_sound_volume_title"
+            app:min="0"
+            app:valueUnit="%" />
+
+        <ListPreference
+            android:defaultValue="system"
+            android:dependency="pref_sound"
+            android:entries="@array/sound_profile_entries"
+            android:entryValues="@array/sound_profile_values"
+            android:key="pref_sound_profile"
+            android:title="@string/pref_sound_profile_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_respect_silent"
+            android:summary="@string/pref_respect_silent_summary"
+            android:title="@string/pref_respect_silent_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_haptics">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_haptic"
+            android:title="@string/pref_haptic_title" />
+
+        <com.customboard.keyboard.settings.SeekBarWithValuePreference
+            android:defaultValue="20"
+            android:dependency="pref_haptic"
+            android:key="pref_vibration_strength"
+            android:max="100"
+            android:title="@string/pref_vibration_title"
+            app:min="0"
+            app:valueUnit="ms" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_feedback">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_key_preview"
+            android:summary="@string/pref_key_preview_summary"
+            android:title="@string/pref_key_preview_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_key_animation"
+            android:title="@string/pref_key_animation_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

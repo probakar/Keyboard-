@@ -1,0 +1,197 @@
+# CustomBoard bigrams: context<TAB>nextWord<TAB>weight
+i	am	100
+i	have	100
+i	will	100
+i	think	100
+i	want	100
+i	need	100
+i	know	100
+i	would	100
+i	can	100
+i	was	100
+i	don't	100
+i	love	100
+i	hope	100
+i	just	100
+i really you	are	100
+you	have	100
+you	can	100
+you	will	100
+you	should	100
+you	know	100
+you	want	100
+you	need	100
+you	did	100
+you were we	are	100
+we	have	100
+we	will	100
+we	can	100
+we	should	100
+we	need	100
+we were they	are	100
+they	have	100
+they	will	100
+they	can	100
+they were it	is	100
+it	was	100
+it	will	100
+it	would	100
+it	can	100
+it	looks	100
+it seems this	is	100
+this	was	100
+this	will	100
+that	is	100
+that	was	100
+that	would	100
+there	is	100
+there	are	100
+there was how	are	100
+how	is	100
+how	do	100
+how	can	100
+how	about	100
+how	much	100
+how	many	100
+how long what	is	100
+what	are	100
+what	do	100
+what	about	100
+what	time	100
+what kind thank	you	100
+thanks	for	100
+please	let	100
+let	me	100
+let	us	100
+good	morning	100
+good	evening	100
+good	night	100
+good	luck	100
+good job see	you	100
+talk	to	100
+talk	soon	100
+call	you	100
+call	me	100
+text	me	100
+send	me	100
+give	me	100
+tell	me	100
+show	me	100
+help	me	100
+meet you going	to	100
+want	to	100
+need	to	100
+have	to	100
+has	to	100
+had	to	100
+able	to	100
+used	to	100
+trying	to	100
+looking	forward	100
+according	to	100
+due	to	100
+thanks to in	the	100
+on	the	100
+at	the	100
+to	the	100
+for	the	100
+of	the	100
+with	the	100
+from	the	100
+by	the	100
+about	the	100
+into	the	100
+over the a	lot	100
+a	little	100
+a	few	100
+a	bit	100
+a	while	100
+a	good	100
+a	great	100
+a	new	100
+a very very	good	100
+very	much	100
+very	well	100
+very	happy	100
+so	much	100
+so	good	100
+too	much	100
+too many next	week	100
+next	month	100
+next	year	100
+next	time	100
+last	night	100
+last	week	100
+last	year	100
+this	week	100
+this	month	100
+this	year	100
+this	morning	100
+this time right	now	100
+right	away	100
+just	now	100
+as	soon	100
+as	well	100
+at	least	100
+at	most	100
+of	course	100
+in	fact	100
+for	example	100
+such as make	sure	100
+take	care	100
+get	back	100
+get	in	100
+come	back	100
+come	over	100
+go	back	100
+go	home	100
+go	out	100
+look	like	100
+look forward can	you	100
+could	you	100
+would	you	100
+will	you	100
+do	you	100
+did	you	100
+are	you	100
+have	you	100
+should	i	100
+can	i	100
+may	i	100
+shall we i'm	sorry	100
+i'm	not	100
+i'm	going	100
+i'm	here	100
+i'm	good	100
+it's	a	100
+it's	not	100
+that's	a	100
+that's	great	100
+don't	know	100
+doesn't	work	100
+didn't get work	on	100
+working	on	100
+based	on	100
+depends	on	100
+focus on pick	up	100
+set	up	100
+wake	up	100
+hold	on	100
+hang	on	100
+check	out	100
+find	out	100
+figure out happy	birthday	100
+happy	new	100
+merry	christmas	100
+best	regards	100
+kind regards the	best	100
+the	same	100
+the	first	100
+the	last	100
+the	next	100
+the	only	100
+the	other	100
+the most let me	know	100
+please	find	100
+as	discussed	100
+following	up	100

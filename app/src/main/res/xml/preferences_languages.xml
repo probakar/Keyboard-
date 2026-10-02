@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_languages">
+
+        <MultiSelectListPreference
+            android:entries="@array/language_entries"
+            android:entryValues="@array/language_values"
+            android:key="pref_languages"
+            android:summary="@string/pref_languages_summary"
+            android:title="@string/pref_languages_title" />
+
+        <ListPreference
+            android:defaultValue="en_US"
+            android:entries="@array/language_entries"
+            android:entryValues="@array/language_values"
+            android:key="pref_current_language"
+            android:title="@string/pref_current_language_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_multilingual"
+            android:summary="@string/pref_multilingual_summary"
+            android:title="@string/pref_multilingual_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_remember_layout"
+            android:summary="@string/pref_remember_layout_summary"
+            android:title="@string/pref_remember_layout_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

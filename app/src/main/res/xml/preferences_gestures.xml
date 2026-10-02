@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_gestures">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_gesture_typing"
+            android:summary="@string/pref_gesture_typing_summary"
+            android:title="@string/pref_gesture_typing_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_gesture_trail"
+            android:title="@string/pref_gesture_trail_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_space_cursor"
+            android:summary="@string/pref_space_cursor_summary"
+            android:title="@string/pref_space_cursor_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_swipe_delete"
+            android:summary="@string/pref_swipe_delete_summary"
+            android:title="@string/pref_swipe_delete_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_swipe_down_hide"
+            android:title="@string/pref_swipe_down_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_swipe_up_symbols"
+            android:summary="@string/pref_swipe_up_summary"
+            android:title="@string/pref_swipe_up_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_timing">
+
+        <ListPreference
+            android:defaultValue="300"
+            android:entries="@array/long_press_entries"
+            android:entryValues="@array/long_press_values"
+            android:key="pref_long_press_delay"
+            android:title="@string/pref_long_press_title" />
+
+        <ListPreference
+            android:defaultValue="55"
+            android:entries="@array/key_repeat_entries"
+            android:entryValues="@array/key_repeat_values"
+            android:key="pref_key_repeat_delay"
+            android:title="@string/pref_key_repeat_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

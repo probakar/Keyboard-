@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_clipboard">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_clipboard_enabled"
+            android:summary="@string/pref_clipboard_enabled_summary"
+            android:title="@string/pref_clipboard_enabled_title" />
+
+        <ListPreference
+            android:defaultValue="24"
+            android:entries="@array/clipboard_retention_entries"
+            android:entryValues="@array/clipboard_retention_values"
+            android:key="pref_clipboard_retention"
+            android:title="@string/pref_clipboard_retention_title" />
+
+        <ListPreference
+            android:defaultValue="500"
+            android:entries="@array/clipboard_max_entries"
+            android:entryValues="@array/clipboard_max_values"
+            android:key="pref_clipboard_max"
+            android:title="@string/pref_clipboard_max_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_clipboard_suggest"
+            android:summary="@string/pref_clipboard_suggest_summary"
+            android:title="@string/pref_clipboard_suggest_title" />
+
+        <Preference
+            android:key="action_clear_clipboard"
+            android:summary="@string/pref_clear_clipboard_summary"
+            android:title="@string/clipboard_clear_all" />
+    </PreferenceCategory>
+</PreferenceScreen>

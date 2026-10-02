@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_suggestions">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_show_suggestions"
+            android:summary="@string/pref_suggestions_summary"
+            android:title="@string/pref_suggestions_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_autocorrect"
+            android:summary="@string/pref_autocorrect_summary"
+            android:title="@string/pref_autocorrect_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_prediction"
+            android:title="@string/pref_prediction_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_smart_compose"
+            android:summary="@string/pref_smart_compose_summary"
+            android:title="@string/pref_smart_compose_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_grammar_check"
+            android:title="@string/pref_grammar_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_spell_check"
+            android:title="@string/pref_spell_check_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_block_offensive"
+            android:title="@string/pref_block_offensive_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_calculator"
+            android:summary="@string/pref_calculator_summary"
+            android:title="@string/pref_calculator_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_suggest_contacts"
+            android:summary="@string/pref_contacts_summary"
+            android:title="@string/pref_contacts_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_corrections">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_auto_cap"
+            android:title="@string/pref_auto_cap_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_double_space_period"
+            android:title="@string/pref_double_space_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_smart_punctuation"
+            android:title="@string/pref_smart_punctuation_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_smart_quotes"
+            android:title="@string/pref_smart_quotes_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_auto_space"
+            android:title="@string/pref_auto_space_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_dictionary">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_learn_words"
+            android:summary="@string/pref_learn_words_summary"
+            android:title="@string/pref_learn_words_title" />
+
+        <Preference
+            android:key="action_personal_dictionary"
+            android:title="@string/dictionary_title" />
+
+        <Preference
+            android:key="action_clear_learned"
+            android:summary="@string/pref_clear_learned_summary"
+            android:title="@string/pref_clear_learned_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_keys">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_number_row"
+            android:title="@string/pref_number_row_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_shortcuts_enabled"
+            android:summary="@string/pref_shortcuts_summary"
+            android:title="@string/pref_shortcuts_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

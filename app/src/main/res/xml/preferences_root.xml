@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/settings_setup">
+
+        <Preference
+            android:icon="@drawable/ic_keyboard"
+            android:key="action_enable_keyboard"
+            android:title="@string/setup_enable_title" />
+
+        <Preference
+            android:icon="@drawable/ic_check_circle"
+            android:key="action_select_keyboard"
+            android:title="@string/setup_select_title" />
+
+        <Preference
+            android:icon="@drawable/ic_tune"
+            android:key="action_setup_wizard"
+            android:title="@string/settings_run_wizard" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_categories">
+
+        <Preference
+            android:fragment="com.customboard.keyboard.settings.SettingsFragment$Theme"
+            android:icon="@drawable/ic_palette"
+            android:summary="@string/settings_theme_summary"
+            android:title="@string/settings_theme" />
+
+        <Preference
+            android:fragment="com.customboard.keyboard.settings.SettingsFragment$Typing"
+            android:icon="@drawable/ic_dictionary"
+            android:summary="@string/settings_typing_summary"
+            android:title="@string/settings_typing" />
+
+        <Preference
+            android:fragment="com.customboard.keyboard.settings.SettingsFragment$Ai"
+            android:icon="@drawable/ic_ai"
+            android:summary="@string/settings_ai_summary"
+            android:title="@string/settings_ai" />
+
+        <Preference
+            android:fragment="com.customboard.keyboard.settings.SettingsFragment$Clipboard"
+            android:icon="@drawable/ic_clipboard"
+            android:summary="@string/settings_clipboard_summary"
+            android:title="@string/settings_clipboard" />
+
+        <Preference
+            android:fragment="com.customboard.keyboard.settings.SettingsFragment$Languages"
+            android:icon="@drawable/ic_language"
+            android:summary="@string/settings_languages_summary"
+            android:title="@string/settings_languages" />
+
+        <Preference
+            android:fragment="com.customboard.keyboard.settings.SettingsFragment$Gestures"
+            android:icon="@drawable/ic_gesture"
+            android:summary="@string/settings_gestures_summary"
+            android:title="@string/settings_gestures" />
+
+        <Preference
+            android:fragment="com.customboard.keyboard.settings.SettingsFragment$SoundHaptics"
+            android:icon="@drawable/ic_volume"
+            android:summary="@string/settings_sound_summary"
+            android:title="@string/settings_sound" />
+
+        <Preference
+            android:fragment="com.customboard.keyboard.settings.SettingsFragment$LayoutModes"
+            android:icon="@drawable/ic_one_handed"
+            android:summary="@string/settings_layout_summary"
+            android:title="@string/settings_layout" />
+
+        <Preference
+            android:fragment="com.customboard.keyboard.settings.SettingsFragment$Privacy"
+            android:icon="@drawable/ic_incognito"
+            android:summary="@string/settings_privacy_summary"
+            android:title="@string/settings_privacy" />
+
+        <Preference
+            android:fragment="com.customboard.keyboard.settings.SettingsFragment$Accessibility"
+            android:icon="@drawable/ic_accessibility"
+            android:summary="@string/settings_accessibility_summary"
+            android:title="@string/settings_accessibility" />
+
+        <Preference
+            android:fragment="com.customboard.keyboard.settings.SettingsFragment$About"
+            android:icon="@drawable/ic_info"
+            android:title="@string/settings_about" />
+    </PreferenceCategory>
+</PreferenceScreen>

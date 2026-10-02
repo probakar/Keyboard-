@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <include
+            domain="sharedpref"
+            path="." />
+        <exclude
+            domain="sharedpref"
+            path="customboard_secure.xml" />
+        <exclude
+            domain="database"
+            path="customboard_clipboard.db" />
+    </cloud-backup>
+    <device-transfer>
+        <include
+            domain="sharedpref"
+            path="." />
+        <exclude
+            domain="sharedpref"
+            path="customboard_secure.xml" />
+    </device-transfer>
+</data-extraction-rules>

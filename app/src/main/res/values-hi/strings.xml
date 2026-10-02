@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">कस्टमबोर्ड</string>
+    <string name="ime_name">कस्टमबोर्ड कीबोर्ड</string>
+    <string name="settings_title">सेटिंग्स</string>
+    <string name="category_appearance">दिखावट</string>
+    <string name="category_typing">टाइपिंग</string>
+    <string name="category_clipboard">क्लिपबोर्ड</string>
+    <string name="category_languages">भाषाएँ</string>
+    <string name="category_ai">एआई टूल</string>
+    <string name="category_privacy">गोपनीयता</string>
+    <string name="clipboard_title">क्लिपबोर्ड</string>
+    <string name="clipboard_empty">कॉपी किया गया टेक्स्ट यहाँ दिखेगा</string>
+    <string name="emoji_search_hint">इमोजी खोजें</string>
+    <string name="key_space">स्पेस</string>
+    <string name="voice_listening">सुन रहा है…</string>
+    <string name="ai_title">एआई टूल</string>
+    <string name="incognito_mode">गुप्त मोड</string>
+</resources>
