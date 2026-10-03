@@ -65,7 +65,7 @@ class SettingsActivity : AppCompatActivity(),
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM or MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
         val searchView = SearchView(this).apply {
             queryHint = getString(R.string.settings_search_hint)
-            isIconifiedByDefault = true
+            setIconifiedByDefault(true)
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     currentSearchQuery = query

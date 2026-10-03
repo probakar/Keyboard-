@@ -64,7 +64,7 @@ class WebSearchManager(private val context: Context) {
         return inlineClient.newCall(request).also { call ->
             call.enqueue(object : Callback {
                 override fun onFailure(call: Call, error: IOException) {
-                    if (!call.isCanceled) mainHandler.post { onComplete(emptyList(), error.message) }
+                    if (!call.isCanceled()) mainHandler.post { onComplete(emptyList(), error.message) }
                 }
 
                 override fun onResponse(call: Call, response: Response) {
@@ -78,7 +78,7 @@ class WebSearchManager(private val context: Context) {
                             }.getOrElse { error -> emptyList<InlineResult>() to error.message }
                         }
                     }
-                    if (!call.isCanceled) mainHandler.post { onComplete(result.first, result.second) }
+                    if (!call.isCanceled()) mainHandler.post { onComplete(result.first, result.second) }
                 }
             })
         }
