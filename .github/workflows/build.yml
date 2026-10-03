@@ -132,7 +132,7 @@ jobs:
               human=$(du -h "$apk" | cut -f1)
               printf '| `%s` | %s | %s |\n' "$(basename "$apk")" "$human" "$bytes"
             done
-          } >> "$GITHUB_STEP_SUMMARY"
+          } | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Upload optimized release APKs
         if: always() && steps.build_release.outcome == 'success'
