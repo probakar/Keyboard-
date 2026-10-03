@@ -39,7 +39,9 @@ jobs:
       # Use the Gradle distribution installed above. This repository intentionally does not
       # commit gradle-wrapper.jar, so the CI build should not need to bootstrap one.
       - name: Build debug APK
-        run: gradle assembleDebug --stacktrace
+        run: |
+          set -o pipefail
+          gradle assembleDebug --stacktrace --console=plain 2>&1 | tee build.log
 
       - name: Run unit tests
         run: gradle testDebugUnitTest --stacktrace
@@ -56,12 +58,13 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: Upload test and lint reports
+      - name: Upload build log and reports
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: build-reports
           path: |
+            build.log
             app/build/reports/
             app/build/test-results/
           if-no-files-found: ignore
