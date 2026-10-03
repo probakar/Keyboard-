@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.Gravity
 import android.view.View
 import android.widget.HorizontalScrollView
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupMenu
@@ -16,7 +17,7 @@ import com.customboard.keyboard.handwriting.DigitalInkHandwritingRecognizer
 import com.customboard.keyboard.theme.ThemeColors
 import com.customboard.keyboard.theme.ThemeManager
 import com.customboard.keyboard.utils.dpToPx
-import com.google.mlkit.vision.digitalink.recognition.Ink
+import com.google.mlkit.vision.digitalink.Ink
 
 /** Drawing pad and language selector for offline-after-download handwriting input. */
 class HandwritingPanelView @JvmOverloads constructor(
@@ -178,7 +179,7 @@ class HandwritingPanelView @JvmOverloads constructor(
             isHorizontalScrollBarEnabled = false
             overScrollMode = View.OVER_SCROLL_NEVER
             visibility = View.GONE
-            addView(candidateStrip, HorizontalScrollView.LayoutParams(
+            addView(candidateStrip, FrameLayout.LayoutParams(
                 LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT
             ))
         }
