@@ -81,12 +81,31 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
 
           log = Path("test.log")
           text = log.read_text(errors="replace") if log.exists() else "No test.log was produced."
-          excerpt = "\n".join(text.splitlines()[-150:])[:20000]
-          message = excerpt.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
-          print(f"::error title=Unit test log tail::{message}")
+          ansi = re.compile(r"\x1b\[[0-9;]*m")
+          lines = [ansi.sub("", line).strip() for line in text.splitlines()]
+          pattern = re.compile(
+              r"^(?:e:|w:|error:)|unresolved reference|type mismatch|overload resolution ambiguity|"
+              r"assertionerror|expected:|but was|no value passed|cannot access",
+              re.IGNORECASE,
+          )
+          diagnostics = [line for line in lines if pattern.search(line)]
+          if diagnostics:
+              excerpt = "\n".join(diagnostics[:20])
+          else:
+              markers = [
+                  index for index, line in enumerate(lines)
+                  if any(term in line.lower() for term in (
+                      "compilation error", "what went wrong", "execution failed", "failed"
+                  ))
+              ]
+              index = markers[0] if markers else max(0, len(lines) - 25)
+              excerpt = "\n".join(lines[max(0, index - 5):index + 15])
+          message = excerpt[:3000].replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+          print(f"::error title=Unit test compiler diagnostics::{message}")
           PY
 
       - name: Android Lint
