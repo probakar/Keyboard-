@@ -8,6 +8,13 @@ class GestureDetectorTest {
 
     private fun detector() = GestureDetector(thresholdPx = 20f)
 
+    private fun swipe(dx: Float, dy: Float): SwipeDirection {
+        val detector = detector()
+        detector.begin(0f, 0f)
+        detector.update(dx, dy)
+        return detector.end().direction
+    }
+
     @Test
     fun `a short tap is not a swipe`() {
         val detector = detector()
