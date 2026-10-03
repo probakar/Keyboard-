@@ -1,10 +1,9 @@
 package com.customboard.keyboard.gesture
 
-import android.graphics.PointF
 import kotlin.math.abs
 import kotlin.math.hypot
 
-/** The eight directions a flick can take, plus [NONE] when the movement is just a tap. */
+/** The four cardinal swipe directions, plus [NONE] when the movement is just a tap. */
 enum class SwipeDirection { NONE, UP, DOWN, LEFT, RIGHT }
 
 /** A finished touch path, already classified. */
@@ -25,23 +24,26 @@ data class GestureInfo(
  *
  * This is deliberately independent from `android.view.GestureDetector`: the keyboard needs the
  * dominant axis and the travelled distance of a path that may contain dozens of points (glide
- * typing), which the framework detector does not expose.
+ * typing), which the framework detector does not expose. Keeping points as plain Kotlin values
+ * also makes the classifier deterministic in local JVM tests without Android framework stubs.
  */
 class GestureDetector(private val thresholdPx: Float) {
 
-    private val points = ArrayList<PointF>(64)
+    private data class Point(val x: Float, val y: Float)
+
+    private val points = ArrayList<Point>(64)
     private var startTime = 0L
     private var pointerCount = 1
 
     fun begin(x: Float, y: Float, pointers: Int = 1) {
         points.clear()
-        points.add(PointF(x, y))
+        points.add(Point(x, y))
         startTime = System.currentTimeMillis()
         pointerCount = pointers
     }
 
     fun update(x: Float, y: Float, pointers: Int = 1) {
-        points.add(PointF(x, y))
+        points.add(Point(x, y))
         if (pointers > pointerCount) pointerCount = pointers
     }
 
@@ -80,7 +82,4 @@ class GestureDetector(private val thresholdPx: Float) {
         points.clear()
         pointerCount = 1
     }
-
-    /** Snapshot of the path, used by the glide-typing recogniser. */
-    fun path(): List<PointF> = ArrayList(points)
 }

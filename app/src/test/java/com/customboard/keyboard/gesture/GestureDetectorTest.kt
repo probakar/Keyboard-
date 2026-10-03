@@ -1,7 +1,6 @@
 package com.customboard.keyboard.gesture
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class GestureDetectorTest {
@@ -54,7 +53,8 @@ class GestureDetectorTest {
         detector.begin(0f, 0f)
         detector.update(50f, 50f)
         detector.reset()
-        assertTrue(detector.path().isEmpty())
+        assertEquals(0f, detector.pathLength(), 0.0001f)
+        assertEquals(SwipeDirection.NONE, detector.end().direction)
     }
 
     @Test
