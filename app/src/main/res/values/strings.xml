@@ -375,11 +375,26 @@
     <string name="toolbar_number_row">Number row</string>
     <string name="toolbar_incognito">Incognito</string>
     <string name="toolbar_text_tools">Text tools</string>
+    <string name="toolbar_handwriting">Handwriting</string>
+    <string name="toolbar_tab">Insert Tab</string>
+    <string name="toolbar_panel_title">Keyboard tools</string>
+    <string name="toolbar_no_actions">No actions enabled. Customize your toolbar to add tools.</string>
     <string name="toolbar_ai">AI tools</string>
     <string name="toolbar_resize">Resize keyboard</string>
     <string name="toolbar_split">Split keyboard</string>
     <string name="toolbar_contacts">Contacts</string>
-    <string name="toolbar_more">More actions</string>
+    <string name="toolbar_more">More keyboard tools</string>
+    <string name="handwriting_title">Handwriting</string>
+    <string name="handwriting_choose_language">Choose handwriting language</string>
+    <string name="handwriting_language_selected">Handwriting: %1$s</string>
+    <string name="handwriting_status_idle">Write a word below; it types after a short pause.</string>
+    <string name="handwriting_status_waiting">Recognising your handwriting…</string>
+    <string name="handwriting_status_checking">Getting handwriting ready…</string>
+    <string name="handwriting_status_not_recognized">Not recognised. Try writing more clearly.</string>
+    <string name="handwriting_status_typed">Typed: %1$s</string>
+    <string name="handwriting_space">Space</string>
+    <string name="handwriting_clear">Clear</string>
+    <string name="handwriting_backspace">Delete previous character</string>
 
     <!-- Emoji -->
     <string name="emoji_recent">Recently used</string>

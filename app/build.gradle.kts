@@ -139,6 +139,7 @@ dependencies {
     implementation(libs.mlkit.smart.reply)
     implementation(libs.mlkit.language.id)
     implementation(libs.mlkit.translate)
+    implementation(libs.mlkit.digital.ink)
 
     // Testing
     testImplementation(libs.junit)

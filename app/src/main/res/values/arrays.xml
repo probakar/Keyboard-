@@ -273,6 +273,8 @@
         <item>@string/toolbar_search</item>
         <item>@string/toolbar_theme</item>
         <item>@string/toolbar_text_tools</item>
+        <item>@string/toolbar_handwriting</item>
+        <item>@string/toolbar_tab</item>
         <item>@string/toolbar_cursor</item>
         <item>@string/toolbar_select_all</item>
         <item>@string/toolbar_copy</item>
@@ -300,6 +302,8 @@
         <item>search</item>
         <item>theme</item>
         <item>text_tools</item>
+        <item>handwriting</item>
+        <item>tab</item>
         <item>cursor</item>
         <item>select_all</item>
         <item>copy</item>

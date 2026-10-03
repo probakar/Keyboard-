@@ -68,6 +68,7 @@ class SettingsActivity : AppCompatActivity(),
         SECTION_THEME -> R.string.settings_theme
         SECTION_AI -> R.string.settings_ai
         SECTION_CLIPBOARD -> R.string.settings_clipboard
+        SECTION_LAYOUT -> R.string.settings_layout
         SECTION_TYPING -> R.string.settings_typing
         SECTION_LANGUAGES -> R.string.settings_languages
         else -> R.string.app_settings
@@ -78,6 +79,7 @@ class SettingsActivity : AppCompatActivity(),
         const val SECTION_THEME = "theme"
         const val SECTION_AI = "ai"
         const val SECTION_CLIPBOARD = "clipboard"
+        const val SECTION_LAYOUT = "layout"
         const val SECTION_TYPING = "typing"
         const val SECTION_LANGUAGES = "languages"
     }

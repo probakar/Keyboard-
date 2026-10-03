@@ -16,4 +16,20 @@
     <string name="voice_listening">سن رہا ہے…</string>
     <string name="ai_title">اے آئی ٹولز</string>
     <string name="incognito_mode">پوشیدہ موڈ</string>
+    <string name="toolbar_handwriting">ہاتھ سے لکھیں</string>
+    <string name="toolbar_tab">ٹیب شامل کریں</string>
+    <string name="toolbar_panel_title">کی بورڈ ٹولز</string>
+    <string name="toolbar_no_actions">کوئی ٹول فعال نہیں۔ ٹول بار کو حسبِ ضرورت بنائیں۔</string>
+    <string name="toolbar_more">مزید کی بورڈ ٹولز</string>
+    <string name="handwriting_title">ہاتھ سے لکھائی</string>
+    <string name="handwriting_choose_language">لکھائی کی زبان منتخب کریں</string>
+    <string name="handwriting_language_selected">لکھائی: %1$s</string>
+    <string name="handwriting_status_idle">نیچے لفظ لکھیں؛ تھوڑی دیر بعد خود ٹائپ ہو جائے گا۔</string>
+    <string name="handwriting_status_waiting">لکھائی پہچانی جا رہی ہے…</string>
+    <string name="handwriting_status_checking">لکھائی کی سہولت تیار ہو رہی ہے…</string>
+    <string name="handwriting_status_not_recognized">پہچان نہیں سکی۔ دوبارہ صاف لکھیں۔</string>
+    <string name="handwriting_status_typed">ٹائپ کیا: %1$s</string>
+    <string name="handwriting_space">اسپیس</string>
+    <string name="handwriting_clear">صاف کریں</string>
+    <string name="handwriting_backspace">پچھلا حرف مٹائیں</string>
 </resources>

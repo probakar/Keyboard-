@@ -217,6 +217,7 @@ open class SettingsFragment : PreferenceFragmentCompat() {
                 SettingsActivity.SECTION_THEME -> R.xml.preferences_theme
                 SettingsActivity.SECTION_AI -> R.xml.preferences_ai
                 SettingsActivity.SECTION_CLIPBOARD -> R.xml.preferences_clipboard
+                SettingsActivity.SECTION_LAYOUT -> R.xml.preferences_layout
                 SettingsActivity.SECTION_TYPING -> R.xml.preferences_typing
                 SettingsActivity.SECTION_LANGUAGES -> R.xml.preferences_languages
                 else -> R.xml.preferences_root

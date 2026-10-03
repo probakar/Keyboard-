@@ -56,6 +56,8 @@ object KeyCodes {
     const val SELECT_MODE = -41
     const val DELETE_WORD = -42
     const val COMPOSE = -43
+    const val HANDWRITING = -44
+    const val INSERT_TAB = -45
 }
 
 /** SharedPreferences keys. These are identical to the keys used in res/xml/prefs_*.xml. */
@@ -207,7 +209,7 @@ object Defaults {
     const val KEY_SHAPE = "rounded"
     const val SOUND_PROFILE = "system"
     const val TOOLBAR_ITEMS =
-        "ai,clipboard,emoji,voice,translate,text_tools,cursor,theme,gif,search,one_handed,incognito,settings"
+        "ai,clipboard,emoji,handwriting,voice,translate,text_tools,cursor,theme,gif,search,floating,one_handed,split,incognito,settings,tab"
 }
 
 object Constants {

@@ -170,6 +170,8 @@ class InputLogic(
         }
     }
 
+    fun insertTab() = commitText("\t")
+
     fun commitText(text: String, clearComposing: Boolean = true) {
         val ic = connection() ?: return
         pushUndo()
@@ -178,6 +180,22 @@ class InputLogic(
             ic.finishComposingText()
         }
         ic.commitText(text, 1)
+    }
+
+    /** Replace the immediately preceding committed text, used to correct a handwriting candidate. */
+    fun replaceTextBeforeCursor(expectedText: String, replacement: String): Boolean {
+        val ic = connection() ?: return false
+        if (expectedText.isEmpty()) return false
+        val before = ic.getTextBeforeCursor(expectedText.length, 0)?.toString() ?: return false
+        if (before != expectedText) return false
+        pushUndo()
+        if (composing.isNotEmpty()) {
+            composing = ""
+            ic.finishComposingText()
+        }
+        ic.deleteSurroundingText(expectedText.length, 0)
+        ic.commitText(replacement, 1)
+        return true
     }
 
     /** Replaces the word around the cursor, used by gesture typing and AI rewrites. */

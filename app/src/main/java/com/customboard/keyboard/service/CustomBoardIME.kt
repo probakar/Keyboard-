@@ -65,6 +65,7 @@ import com.customboard.keyboard.widgets.CandidateView
 import com.customboard.keyboard.widgets.ClipboardPanelView
 import com.customboard.keyboard.widgets.CursorControlPanelView
 import com.customboard.keyboard.widgets.EmojiPanelView
+import com.customboard.keyboard.widgets.HandwritingPanelView
 import com.customboard.keyboard.widgets.KeyboardView
 import com.customboard.keyboard.widgets.MediaPanelView
 import com.customboard.keyboard.widgets.ResizePanelView
@@ -72,6 +73,7 @@ import com.customboard.keyboard.widgets.SearchPanelView
 import com.customboard.keyboard.widgets.SuggestionsPanelView
 import com.customboard.keyboard.widgets.TextInputTarget
 import com.customboard.keyboard.widgets.TextToolsPanelView
+import com.customboard.keyboard.widgets.ToolbarPanelView
 import com.customboard.keyboard.widgets.ToolbarView
 import com.customboard.keyboard.widgets.VoiceInputView
 import kotlinx.coroutines.CoroutineScope
@@ -91,6 +93,8 @@ class CustomBoardIME : InputMethodService(),
     KeyboardView.KeyboardListener,
     CandidateView.Listener,
     ToolbarView.Listener,
+    ToolbarPanelView.Listener,
+    HandwritingPanelView.Listener,
     EmojiPanelView.Listener,
     ClipboardPanelView.Listener,
     AiPanelView.Listener,
@@ -138,6 +142,7 @@ class CustomBoardIME : InputMethodService(),
     private var activePanel: View? = null
     private var activeTextTarget: TextInputTarget? = null
     private var currentEditorInfo: EditorInfo? = null
+    private var lastHandwritingInsertion: String = ""
     private var theme: ThemeColors = ThemePresets.LIGHT
 
     // Panels are created lazily, the first time they are needed.
@@ -151,6 +156,8 @@ class CustomBoardIME : InputMethodService(),
     private var suggestionsPanel: SuggestionsPanelView? = null
     private var resizePanel: ResizePanelView? = null
     private var voicePanel: VoiceInputView? = null
+    private var toolbarPanel: ToolbarPanelView? = null
+    private var handwritingPanel: HandwritingPanelView? = null
 
     private val preferenceListener =
         android.content.SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
@@ -175,6 +182,7 @@ class CustomBoardIME : InputMethodService(),
         binding.keyboardView.listener = this
         binding.candidateView.listener = this
         binding.toolbarView.listener = this
+        binding.toolbarView.onMoreClick = { openPanel(PanelType.TOOLBAR) }
         floatingManager.attachDragHandle(binding.dragHandle, binding.keyboardContainer)
         applyAllPreferences()
         return binding.root
@@ -247,6 +255,7 @@ class CustomBoardIME : InputMethodService(),
         clipboardManager.stopMonitoring()
         voiceManager.release()
         assistant.release()
+        handwritingPanel?.close()
         popupManager.dismissAll()
         inputLogic.engine.persist()
         super.onDestroy()
@@ -325,6 +334,8 @@ class CustomBoardIME : InputMethodService(),
         suggestionsPanel?.applyTheme(theme)
         resizePanel?.applyTheme(theme)
         voicePanel?.applyTheme(theme)
+        toolbarPanel?.applyTheme(theme)
+        handwritingPanel?.applyTheme(theme)
     }
 
     private fun reloadLayout() {
@@ -722,6 +733,8 @@ class CustomBoardIME : InputMethodService(),
             KeyCodes.CLIPBOARD -> openPanel(PanelType.CLIPBOARD)
             KeyCodes.AI_TOOLS -> openPanel(PanelType.AI)
             KeyCodes.TEXT_TOOLS -> openPanel(PanelType.TEXT_TOOLS)
+            KeyCodes.HANDWRITING -> openPanel(PanelType.HANDWRITING)
+            KeyCodes.INSERT_TAB -> inputLogic.insertTab()
             KeyCodes.GIF -> openPanel(PanelType.MEDIA)
             KeyCodes.STICKER -> openPanel(PanelType.MEDIA)
             KeyCodes.SEARCH -> openPanel(PanelType.SEARCH)
@@ -762,17 +775,25 @@ class CustomBoardIME : InputMethodService(),
             KeyCodes.REDO -> if (!inputLogic.redo()) showToast(getString(R.string.nothing_to_redo))
 
             KeyCodes.ONE_HANDED -> {
-                oneHandedManager.toggle()
+                val side = oneHandedManager.toggle()
+                if (side != OneHandedModeManager.Side.OFF && floatingManager.isEnabled) {
+                    floatingManager.toggle()
+                }
                 updateKeyboardMetrics()
                 binding.toolbarView.setActive(
                     "one_handed", oneHandedManager.side != OneHandedModeManager.Side.OFF
                 )
+                binding.toolbarView.setActive("floating", floatingManager.isEnabled)
             }
 
             KeyCodes.FLOATING -> {
                 floatingManager.toggle()
+                if (floatingManager.isEnabled) oneHandedManager.setSide(OneHandedModeManager.Side.OFF)
                 updateKeyboardMetrics()
                 binding.toolbarView.setActive("floating", floatingManager.isEnabled)
+                binding.toolbarView.setActive(
+                    "one_handed", oneHandedManager.side != OneHandedModeManager.Side.OFF
+                )
             }
 
             KeyCodes.SPLIT -> {
@@ -829,10 +850,24 @@ class CustomBoardIME : InputMethodService(),
     //  Panels
     // ------------------------------------------------------------------
 
-    private enum class PanelType { EMOJI, CLIPBOARD, AI, MEDIA, TEXT_TOOLS, CURSOR, SEARCH, RESIZE, VOICE, SUGGESTIONS }
+    private enum class PanelType {
+        TOOLBAR, HANDWRITING, EMOJI, CLIPBOARD, AI, MEDIA, TEXT_TOOLS, CURSOR, SEARCH, RESIZE, VOICE, SUGGESTIONS
+    }
 
     private fun openPanel(type: PanelType) {
         val view: View = when (type) {
+            PanelType.TOOLBAR -> (toolbarPanel ?: ToolbarPanelView(this).also {
+                it.listener = this
+                toolbarPanel = it
+            }).also { it.refresh() }
+
+            PanelType.HANDWRITING -> (handwritingPanel ?: HandwritingPanelView(this).also {
+                it.listener = this
+                handwritingPanel = it
+            }).also {
+                it.prepare(HandwritingPanelView.DEFAULT_LANGUAGES, layoutManager.language)
+            }
+
             PanelType.EMOJI -> emojiPanel ?: EmojiPanelView(this).also {
                 it.listener = this
                 emojiPanel = it
@@ -888,6 +923,7 @@ class CustomBoardIME : InputMethodService(),
 
     private fun showPanel(view: View) {
         if (!::binding.isInitialized) return
+        if (activePanel === handwritingPanel && activePanel !== view) lastHandwritingInsertion = ""
         popupManager.dismissAll()
         binding.panelContainer.removeAllViews()
         binding.panelContainer.addView(
@@ -905,6 +941,7 @@ class CustomBoardIME : InputMethodService(),
 
     private fun hidePanel() {
         if (!::binding.isInitialized) return
+        if (activePanel === handwritingPanel) lastHandwritingInsertion = ""
         binding.panelContainer.removeAllViews()
         binding.panelContainer.gone()
         binding.keyboardView.visible()
@@ -955,6 +992,63 @@ class CustomBoardIME : InputMethodService(),
         soundManager.gestureFeedback(binding.toolbarView)
         handleFunctionKey(item.action)
     }
+
+    override fun onToolbarItemSelected(item: ToolbarItem) {
+        hidePanel()
+        soundManager.gestureFeedback(binding.toolbarView)
+        handleFunctionKey(item.action)
+    }
+
+    override fun onToolbarCustomizeRequested() {
+        hidePanel()
+        openSettings(SettingsActivity.SECTION_LAYOUT)
+    }
+
+    override fun onToolbarPanelClosed() = hidePanel()
+
+    override fun onHandwritingCommitted(text: String) {
+        val clean = text.trim()
+        if (clean.isEmpty()) return
+        val previous = inputLogic.textBeforeCursor(1).lastOrNull()
+        val needsSpace = previous != null && !previous.isWhitespace() &&
+            clean.firstOrNull()?.isLetterOrDigit() == true
+        val insertion = (if (needsSpace) " " else "") + clean
+        inputLogic.commitText(insertion)
+        lastHandwritingInsertion = insertion
+        refreshSuggestions()
+    }
+
+    override fun onHandwritingAlternative(text: String) {
+        val previousInsertion = lastHandwritingInsertion
+        if (previousInsertion.isEmpty()) return
+        val replacement = (if (previousInsertion.startsWith(" ")) " " else "") + text.trim()
+        if (inputLogic.replaceTextBeforeCursor(previousInsertion, replacement)) {
+            lastHandwritingInsertion = replacement
+            refreshSuggestions()
+        }
+    }
+
+    override fun onHandwritingSpace() {
+        lastHandwritingInsertion = ""
+        inputLogic.onSpace()
+        refreshSuggestions()
+    }
+
+    override fun onHandwritingDelete() {
+        lastHandwritingInsertion = ""
+        inputLogic.onDelete()
+        refreshSuggestions()
+    }
+
+    override fun onHandwritingClear() {
+        lastHandwritingInsertion = ""
+    }
+
+    override fun onHandwritingClosed() {
+        hidePanel()
+    }
+
+    override fun handwritingPreContext(): String = inputLogic.textBeforeCursor(20)
 
     // ------------------------------------------------------------------
     //  Panel listeners

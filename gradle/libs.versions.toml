@@ -19,6 +19,7 @@ palette = "1.0.0"
 mlkitSmartReply = "17.0.4"
 mlkitLanguageId = "17.0.6"
 mlkitTranslate = "17.0.3"
+mlkitDigitalInk = "19.0.0"
 junit = "4.13.2"
 androidxJunit = "1.2.1"
 espresso = "3.6.1"
@@ -46,6 +47,7 @@ androidx-palette-ktx = { group = "androidx.palette", name = "palette-ktx", versi
 mlkit-smart-reply = { group = "com.google.mlkit", name = "smart-reply", version.ref = "mlkitSmartReply" }
 mlkit-language-id = { group = "com.google.mlkit", name = "language-id", version.ref = "mlkitLanguageId" }
 mlkit-translate = { group = "com.google.mlkit", name = "translate", version.ref = "mlkitTranslate" }
+mlkit-digital-ink = { group = "com.google.mlkit", name = "digital-ink-recognition", version.ref = "mlkitDigitalInk" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }

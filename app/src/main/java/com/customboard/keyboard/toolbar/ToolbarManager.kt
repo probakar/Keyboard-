@@ -53,8 +53,9 @@ class ToolbarManager(context: Context) {
 
     companion object {
         val DEFAULT_ORDER = listOf(
-            "ai", "clipboard", "emoji", "voice", "translate", "text_tools", "cursor",
-            "sticker", "gif", "search", "theme", "one_handed", "incognito", "settings"
+            "ai", "clipboard", "emoji", "handwriting", "voice", "translate", "text_tools",
+            "cursor", "sticker", "gif", "search", "theme", "floating", "one_handed",
+            "split", "incognito", "settings", "tab"
         )
     }
 }

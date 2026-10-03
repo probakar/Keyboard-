@@ -28,6 +28,7 @@ class ToolbarView @JvmOverloads constructor(
     }
 
     var listener: Listener? = null
+    var onMoreClick: (() -> Unit)? = null
 
     private val manager = ToolbarManager(context)
     private val scrollView = HorizontalScrollView(context).apply {
@@ -38,25 +39,39 @@ class ToolbarView @JvmOverloads constructor(
         orientation = LinearLayout.HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
     }
+    private val moreButton = ImageButton(context).apply {
+        setImageResource(R.drawable.ic_expand_more)
+        background = ContextCompat.getDrawable(context, R.drawable.bg_toolbar_ripple)
+        contentDescription = context.getString(R.string.toolbar_more)
+        scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
+        setOnClickListener { onMoreClick?.invoke() }
+    }
 
     private var theme: ThemeColors = ThemeManager.getInstance(context).current
     private val activeStates = HashMap<String, Boolean>()
 
     init {
-        addView(scrollView, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+        val moreWidth = context.dpToPx(42f).toInt()
+        addView(
+            scrollView,
+            LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT).apply {
+                marginEnd = moreWidth
+            }
+        )
         scrollView.addView(
             container,
             LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT
             )
         )
+        addView(moreButton, LayoutParams(moreWidth, LayoutParams.MATCH_PARENT, Gravity.END))
         refresh()
     }
 
     fun refresh() {
         container.removeAllViews()
         val size = context.dpToPx(40f).toInt()
-        manager.visibleItems().forEach { item ->
+        manager.visibleItems().take(QUICK_ACTION_COUNT).forEach { item ->
             val button = ImageButton(context).apply {
                 setImageResource(item.iconRes)
                 background = ContextCompat.getDrawable(context, R.drawable.bg_toolbar_ripple)
@@ -76,6 +91,7 @@ class ToolbarView @JvmOverloads constructor(
 
     fun applyTheme(theme: ThemeColors) {
         this.theme = theme
+        moreButton.setColorFilter(theme.keySecondaryText)
         for (index in 0 until container.childCount) {
             val button = container.getChildAt(index) as ImageButton
             val active = activeStates[button.tag as? String] == true
@@ -95,4 +111,8 @@ class ToolbarView @JvmOverloads constructor(
     }
 
     fun scrollToStart() = scrollView.smoothScrollTo(0, 0)
+
+    companion object {
+        private const val QUICK_ACTION_COUNT = 5
+    }
 }

@@ -25,6 +25,8 @@ data class ToolbarItem(
             ToolbarItem("search", R.string.toolbar_search, R.drawable.ic_search, KeyCodes.SEARCH),
             ToolbarItem("theme", R.string.toolbar_theme, R.drawable.ic_palette, KeyCodes.THEME),
             ToolbarItem("text_tools", R.string.toolbar_text_tools, R.drawable.ic_text_tools, KeyCodes.TEXT_TOOLS),
+            ToolbarItem("handwriting", R.string.toolbar_handwriting, R.drawable.ic_edit, KeyCodes.HANDWRITING),
+            ToolbarItem("tab", R.string.toolbar_tab, R.drawable.ic_enter, KeyCodes.INSERT_TAB),
             ToolbarItem("cursor", R.string.toolbar_cursor, R.drawable.ic_cursor_control, KeyCodes.SELECT_MODE),
             ToolbarItem("select_all", R.string.toolbar_select_all, R.drawable.ic_select_all, KeyCodes.SELECT_ALL),
             ToolbarItem("copy", R.string.toolbar_copy, R.drawable.ic_copy, KeyCodes.COPY),
