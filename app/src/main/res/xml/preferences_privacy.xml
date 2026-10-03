@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_privacy">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_incognito"
+            android:summary="@string/pref_incognito_summary"
+            android:title="@string/incognito_mode" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_disable_in_password"
+            android:summary="@string/pref_disable_password_summary"
+            android:title="@string/pref_disable_password_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_app_lock"
+            android:summary="@string/pref_app_lock_summary"
+            android:title="@string/pref_app_lock_title" />
+
+        <Preference
+            android:key="action_clear_clipboard"
+            android:title="@string/clipboard_clear_all" />
+
+        <Preference
+            android:key="action_clear_learned"
+            android:title="@string/pref_clear_learned_title" />
+
+        <Preference
+            android:key="action_reset_settings"
+            android:summary="@string/pref_reset_summary"
+            android:title="@string/pref_reset_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

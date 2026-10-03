@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">کسٹم بورڈ</string>
+    <string name="ime_name">کسٹم بورڈ کی بورڈ</string>
+    <string name="settings_title">ترتیبات</string>
+    <string name="category_appearance">ظاہری شکل</string>
+    <string name="category_typing">ٹائپنگ</string>
+    <string name="category_clipboard">کلپ بورڈ</string>
+    <string name="category_languages">زبانیں</string>
+    <string name="category_ai">اے آئی ٹولز</string>
+    <string name="category_privacy">رازداری</string>
+    <string name="clipboard_title">کلپ بورڈ</string>
+    <string name="clipboard_empty">کاپی کیا گیا متن یہاں دکھے گا</string>
+    <string name="emoji_search_hint">ایموجی تلاش کریں</string>
+    <string name="key_space">خالی جگہ</string>
+    <string name="voice_listening">سن رہا ہے…</string>
+    <string name="ai_title">اے آئی ٹولز</string>
+    <string name="incognito_mode">پوشیدہ موڈ</string>
+</resources>

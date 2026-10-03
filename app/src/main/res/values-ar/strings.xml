@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">كاستم بورد</string>
+    <string name="ime_name">لوحة مفاتيح كاستم بورد</string>
+    <string name="settings_title">الإعدادات</string>
+    <string name="category_appearance">المظهر</string>
+    <string name="category_typing">الكتابة</string>
+    <string name="category_clipboard">الحافظة</string>
+    <string name="category_languages">اللغات</string>
+    <string name="category_ai">أدوات الذكاء الاصطناعي</string>
+    <string name="category_privacy">الخصوصية</string>
+    <string name="clipboard_title">الحافظة</string>
+    <string name="clipboard_empty">سيظهر النص المنسوخ هنا</string>
+    <string name="emoji_search_hint">ابحث عن رمز تعبيري</string>
+    <string name="key_space">مسافة</string>
+    <string name="voice_listening">جارٍ الاستماع…</string>
+    <string name="ai_title">أدوات الذكاء الاصطناعي</string>
+    <string name="incognito_mode">الوضع المتخفي</string>
+</resources>

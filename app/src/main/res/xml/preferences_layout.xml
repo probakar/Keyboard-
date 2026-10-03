@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/settings_modes">
+
+        <ListPreference
+            android:defaultValue="off"
+            android:entries="@array/one_handed_entries"
+            android:entryValues="@array/one_handed_values"
+            android:key="pref_one_handed"
+            android:title="@string/pref_one_handed_title" />
+
+        <com.customboard.keyboard.settings.SeekBarWithValuePreference
+            android:defaultValue="85"
+            android:key="pref_one_handed_scale"
+            android:max="95"
+            android:title="@string/pref_one_handed_scale_title"
+            app:min="60"
+            app:valueUnit="%" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_floating"
+            android:summary="@string/pref_floating_summary"
+            android:title="@string/pref_floating_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_split"
+            android:summary="@string/pref_split_summary"
+            android:title="@string/pref_split_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_toolbar">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_toolbar_enabled"
+            android:title="@string/pref_toolbar_enabled_title" />
+
+        <Preference
+            android:key="action_toolbar_customize"
+            android:summary="@string/toolbar_customize_hint"
+            android:title="@string/toolbar_customize" />
+    </PreferenceCategory>
+</PreferenceScreen>

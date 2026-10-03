@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/settings_theme">
+
+        <Preference
+            android:key="action_theme_picker"
+            android:summary="@string/theme_picker_summary"
+            android:title="@string/theme_picker_title" />
+
+        <ListPreference
+            android:defaultValue="light"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_values"
+            android:key="pref_theme"
+            android:title="@string/pref_theme_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_follow_system_theme"
+            android:summary="@string/pref_follow_system_summary"
+            android:title="@string/pref_follow_system_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_dynamic_color"
+            android:summary="@string/pref_dynamic_color_summary"
+            android:title="@string/pref_dynamic_color_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_gradient"
+            android:title="@string/pref_gradient_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_keys">
+
+        <com.customboard.keyboard.settings.SeekBarWithValuePreference
+            android:defaultValue="100"
+            android:key="pref_keyboard_height"
+            android:max="170"
+            android:title="@string/pref_keyboard_height_title"
+            app:min="60"
+            app:valueUnit="%" />
+
+        <com.customboard.keyboard.settings.SeekBarWithValuePreference
+            android:defaultValue="100"
+            android:key="pref_key_font_size"
+            android:max="150"
+            android:title="@string/pref_key_font_size_title"
+            app:min="70"
+            app:valueUnit="%" />
+
+        <com.customboard.keyboard.settings.SeekBarWithValuePreference
+            android:defaultValue="8"
+            android:key="pref_key_radius"
+            android:max="28"
+            android:title="@string/pref_key_radius_title"
+            app:min="0"
+            app:valueUnit="dp" />
+
+        <com.customboard.keyboard.settings.SeekBarWithValuePreference
+            android:defaultValue="0"
+            android:key="pref_bottom_padding"
+            android:max="48"
+            android:title="@string/pref_bottom_padding_title"
+            app:min="0"
+            app:valueUnit="dp" />
+
+        <com.customboard.keyboard.settings.SeekBarWithValuePreference
+            android:defaultValue="100"
+            android:key="pref_keyboard_opacity"
+            android:max="100"
+            android:title="@string/pref_opacity_title"
+            app:min="20"
+            app:valueUnit="%" />
+
+        <ListPreference
+            android:defaultValue="rounded"
+            android:entries="@array/key_shape_entries"
+            android:entryValues="@array/key_shape_values"
+            android:key="pref_key_shape"
+            android:title="@string/pref_key_shape_title" />
+
+        <ListPreference
+            android:defaultValue="default"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_values"
+            android:key="pref_font"
+            android:title="@string/pref_font_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_key_borders"
+            android:title="@string/pref_key_borders_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_custom_theme">
+
+        <com.customboard.keyboard.settings.ColorPickerPreference
+            android:key="pref_custom_background"
+            android:title="@string/custom_background"
+            app:defaultColor="@color/kb_light_background" />
+
+        <com.customboard.keyboard.settings.ColorPickerPreference
+            android:key="pref_custom_key"
+            android:title="@string/custom_key_color"
+            app:defaultColor="@color/kb_light_key" />
+
+        <com.customboard.keyboard.settings.ColorPickerPreference
+            android:key="pref_custom_text"
+            android:title="@string/custom_text_color"
+            app:defaultColor="@color/kb_light_text" />
+
+        <com.customboard.keyboard.settings.ColorPickerPreference
+            android:key="pref_custom_accent"
+            android:title="@string/custom_accent_color"
+            app:defaultColor="@color/brand_primary" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/settings_ai">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_ai_enabled"
+            android:summary="@string/pref_ai_enabled_summary"
+            android:title="@string/pref_ai_enabled_title" />
+
+        <Preference
+            android:key="pref_ai_api_key"
+            android:title="@string/ai_api_key_title" />
+
+        <Preference
+            android:key="action_get_api_key"
+            android:summary="@string/ai_get_key_summary"
+            android:title="@string/ai_get_key_title" />
+
+        <ListPreference
+            android:defaultValue="gemini-2.5-flash"
+            android:entries="@array/ai_model_entries"
+            android:entryValues="@array/ai_model_values"
+            android:key="pref_ai_model"
+            android:title="@string/pref_ai_model_title" />
+
+        <com.customboard.keyboard.settings.SeekBarWithValuePreference
+            android:defaultValue="40"
+            android:key="pref_ai_temperature"
+            android:max="100"
+            android:summary="@string/pref_ai_temperature_summary"
+            android:title="@string/pref_ai_temperature_title"
+            app:min="0"
+            app:valueUnit="%" />
+
+        <ListPreference
+            android:defaultValue="professional"
+            android:entries="@array/ai_tone_entries"
+            android:entryValues="@array/ai_tone_values"
+            android:key="pref_ai_tone"
+            android:title="@string/pref_ai_tone_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_ai_on_device">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_ai_smart_reply"
+            android:summary="@string/pref_smart_reply_summary"
+            android:title="@string/pref_smart_reply_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_ai_language_detect"
+            android:summary="@string/pref_language_detect_summary"
+            android:title="@string/pref_language_detect_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_ai_offline_only"
+            android:summary="@string/pref_ai_offline_summary"
+            android:title="@string/pref_ai_offline_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_ai_proofread"
+            android:summary="@string/pref_ai_proofread_summary"
+            android:title="@string/pref_ai_proofread_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_translate">
+
+        <ListPreference
+            android:defaultValue="es"
+            android:entries="@array/translate_entries"
+            android:entryValues="@array/translate_values"
+            android:key="pref_ai_translate_target"
+            android:title="@string/pref_translate_target_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_media">
+
+        <Preference
+            android:key="action_tenor_key"
+            android:title="@string/tenor_api_key_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_privacy">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_ai_history"
+            android:summary="@string/pref_ai_history_summary"
+            android:title="@string/pref_ai_history_title" />
+
+        <EditTextPreference
+            android:dialogTitle="@string/pref_custom_prompts_title"
+            android:key="pref_ai_custom_prompts"
+            android:summary="@string/pref_custom_prompts_summary"
+            android:title="@string/pref_custom_prompts_title" />
+    </PreferenceCategory>
+</PreferenceScreen>
