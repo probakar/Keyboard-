@@ -67,19 +67,37 @@ object CustomThemeCreator {
 
     fun loadDraft(context: Context): Draft {
         val raw = PreferencesManager.getInstance(context).customThemeJson ?: return Draft()
-        return runCatching {
-            val json = JSONObject(raw)
-            Draft(
-                background = json.optInt("background", Color.parseColor("#F1F3F4")),
-                backgroundEnd = json.optInt("backgroundEnd", json.optInt("background", Color.WHITE)),
-                keyBackground = json.optInt("keyBackground", Color.WHITE),
-                keyText = json.optInt("keyText", Color.parseColor("#1F1F1F")),
-                accent = json.optInt("accent", Color.parseColor("#1A73E8")),
-                specialKey = json.optInt("specialKey", Color.parseColor("#DADCE0")),
-                gradient = json.optBoolean("gradient", false),
-                name = json.optString("name", "My theme")
-            )
-        }.getOrDefault(Draft())
+        return parseDraft(raw) ?: Draft()
+    }
+
+    /** Parses the app's portable JSON theme format, accepting CSS hex or packed ARGB colours. */
+    fun parseDraft(raw: String): Draft? = runCatching {
+        val json = JSONObject(raw)
+        fun color(key: String, fallback: Int): Int {
+            val value = json.opt(key) ?: return fallback
+            return when (value) {
+                is Number -> value.toInt()
+                is String -> value.takeIf { it.isNotBlank() }?.let { Color.parseColor(it) } ?: fallback
+                else -> fallback
+            }
+        }
+        Draft(
+            background = color("background", Color.parseColor("#F1F3F4")),
+            backgroundEnd = color("backgroundEnd", color("background", Color.WHITE)),
+            keyBackground = color("keyBackground", Color.WHITE),
+            keyText = color("keyText", Color.parseColor("#1F1F1F")),
+            accent = color("accent", Color.parseColor("#1A73E8")),
+            specialKey = color("specialKey", Color.parseColor("#DADCE0")),
+            gradient = json.optBoolean("gradient", false),
+            name = json.optString("name", "My theme").take(40).ifBlank { "My theme" }
+        )
+    }.getOrNull()
+
+    /** Saves a validated imported JSON palette to the user's custom theme slot. */
+    fun importTheme(context: Context, raw: String): Boolean {
+        val draft = parseDraft(raw) ?: return false
+        save(context, draft)
+        return true
     }
 
     fun load(context: Context): ThemeColors = buildTheme(loadDraft(context))

@@ -56,10 +56,9 @@
 -keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
 
 # ---------------------------------------------------------------------------
-# Google ML Kit (on-device AI)
+# Google ML Kit (on-device AI). Each SDK ships consumer rules for required reflection;
+# avoid blanket keep rules so unused transitive classes can still be removed by R8.
 # ---------------------------------------------------------------------------
--keep class com.google.mlkit.** { *; }
--keep class com.google.android.gms.** { *; }
 -dontwarn com.google.mlkit.**
 -dontwarn com.google.android.gms.**
 

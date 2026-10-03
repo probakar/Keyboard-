@@ -122,7 +122,7 @@ turns settings into visible behaviour.
 | Dictionary and emoji loading | `Default`, started from `CustomBoardApplication` |
 | Suggestions and glide recognition | `Default`, cancellable |
 | Room queries | Room's own executor via `suspend` DAO functions |
-| Gemini / Tenor requests | `IO` through OkHttp |
+| Gemini / GIPHY / theme-store requests | `IO` through OkHttp |
 | Everything touching a view | `Main` |
 
 ## 9. What is deliberately absent

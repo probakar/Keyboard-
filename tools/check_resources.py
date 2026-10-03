@@ -96,7 +96,13 @@ ANDROID_PREFIX = re.compile(r'@android:')
 
 # Names provided by AndroidX libraries rather than this module.
 LIBRARY_PROVIDED = {
-    "style": {"PreferenceThemeOverlay", "Widget_AppCompat_ActionBar"},
+    "style": {
+        "PreferenceThemeOverlay",
+        "Widget_AppCompat_ActionBar",
+        "Widget.Material3.Button.OutlinedButton",
+        "Widget.Material3.Button.TextButton",
+    },
+    "attr": {"cardCornerRadius", "cardElevation", "strokeColor", "strokeWidth", "showAsAction"},
 }
 
 
@@ -146,7 +152,7 @@ def check() -> int:
                     problems.append(f"{path}: @{kind}/{res}")
             for match in APP_ATTR_PATTERN.finditer(text):
                 attr = match.group(1)
-                if attr not in defined.get("attr", set()):
+                if attr not in defined.get("attr", set()) and attr not in LIBRARY_PROVIDED.get("attr", set()):
                     problems.append(f"{path}: app:{attr}")
 
     manifest = os.path.join("app", "src", "main", "AndroidManifest.xml")

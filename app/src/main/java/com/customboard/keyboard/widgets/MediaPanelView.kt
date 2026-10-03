@@ -55,6 +55,7 @@ class MediaPanelView @JvmOverloads constructor(
     private val searchField = EditText(context)
     private val grid = RecyclerView(context)
     private val message = TextView(context)
+    private val poweredBy = TextView(context)
     private val closeButton = ImageButton(context)
 
     private val stickerAdapter = StickerAdapter()
@@ -156,11 +157,20 @@ class MediaPanelView @JvmOverloads constructor(
             closeButton,
             LinearLayout.LayoutParams(context.dpToPx(48f).toInt(), LayoutParams.MATCH_PARENT)
         )
+        poweredBy.apply {
+            text = context.getString(R.string.media_gif_powered_by)
+            textSize = 11f
+            gravity = Gravity.CENTER_VERTICAL or Gravity.END
+            setPadding(0, 0, context.dpToPx(12f).toInt(), 0)
+            visibility = View.GONE
+        }
+        footer.addView(poweredBy, LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f))
         addView(footer, LayoutParams(LayoutParams.MATCH_PARENT, context.dpToPx(44f).toInt()))
     }
 
     fun showTab(value: Tab) {
         tab = value
+        poweredBy.visibility = if (value == Tab.GIFS) View.VISIBLE else View.GONE
         searchField.setText("")
         grid.adapter = if (value == Tab.STICKERS) stickerAdapter else gifAdapter
         (grid.layoutManager as GridLayoutManager).spanCount = if (value == Tab.STICKERS) 2 else 2
@@ -183,6 +193,8 @@ class MediaPanelView @JvmOverloads constructor(
                 if (!gifManager.hasApiKey()) {
                     gifAdapter.submit(emptyList())
                     showMessage(context.getString(R.string.media_gif_key_missing))
+                    message.setOnClickListener { listener?.onMediaSettingsRequested() }
+                    message.isClickable = true
                     return
                 }
                 showMessage(context.getString(R.string.media_loading))
@@ -197,6 +209,8 @@ class MediaPanelView @JvmOverloads constructor(
     }
 
     private fun showMessage(text: String) {
+        message.setOnClickListener(null)
+        message.isClickable = false
         message.text = text
         message.visible()
     }
@@ -205,6 +219,7 @@ class MediaPanelView @JvmOverloads constructor(
         this.theme = theme
         setBackgroundColor(theme.background)
         message.setTextColor(theme.keySecondaryText)
+        poweredBy.setTextColor(theme.keySecondaryText)
         searchField.setTextColor(theme.keyText)
         searchField.setHintTextColor(theme.keySecondaryText)
         searchField.backgroundTintList =

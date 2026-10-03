@@ -1,0 +1,10 @@
+{
+  "name": "Violet Dusk",
+  "background": "#1C142C",
+  "backgroundEnd": "#382652",
+  "keyBackground": "#2B1F40",
+  "keyText": "#F2EAFB",
+  "accent": "#C4A7FF",
+  "specialKey": "#493465",
+  "gradient": true
+}

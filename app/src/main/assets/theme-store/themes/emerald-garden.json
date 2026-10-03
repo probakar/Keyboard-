@@ -1,0 +1,10 @@
+{
+  "name": "Emerald Garden",
+  "background": "#0E2A21",
+  "backgroundEnd": "#1D4B38",
+  "keyBackground": "#1C3E31",
+  "keyText": "#E2F8EC",
+  "accent": "#8EE0B3",
+  "specialKey": "#295840",
+  "gradient": true
+}

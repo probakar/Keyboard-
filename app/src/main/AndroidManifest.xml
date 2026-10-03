@@ -100,6 +100,20 @@
             android:parentActivityName=".settings.SettingsActivity"
             android:theme="@style/Theme.CustomBoard" />
 
+        <!-- Custom palette studio and online theme catalog -->
+        <activity
+            android:name=".settings.ThemeStudioActivity"
+            android:exported="false"
+            android:label="@string/theme_customize"
+            android:parentActivityName=".settings.ThemePickerActivity"
+            android:theme="@style/Theme.CustomBoard" />
+        <activity
+            android:name=".settings.ThemeStoreActivity"
+            android:exported="false"
+            android:label="@string/theme_store_title"
+            android:parentActivityName=".settings.ThemePickerActivity"
+            android:theme="@style/Theme.CustomBoard" />
+
         <!-- Drag-and-drop toolbar editor -->
         <activity
             android:name=".settings.ToolbarCustomizeActivity"

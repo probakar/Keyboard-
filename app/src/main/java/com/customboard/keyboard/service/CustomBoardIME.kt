@@ -71,6 +71,7 @@ import com.customboard.keyboard.widgets.MediaPanelView
 import com.customboard.keyboard.widgets.ResizePanelView
 import com.customboard.keyboard.widgets.SearchPanelView
 import com.customboard.keyboard.widgets.SuggestionsPanelView
+import com.customboard.keyboard.widgets.ShortcutGuidePanelView
 import com.customboard.keyboard.widgets.TextInputTarget
 import com.customboard.keyboard.widgets.TextToolsPanelView
 import com.customboard.keyboard.widgets.ToolbarPanelView
@@ -82,6 +83,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.DateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * CustomBoard's input method service - the heart of the keyboard.
@@ -158,6 +162,7 @@ class CustomBoardIME : InputMethodService(),
     private var voicePanel: VoiceInputView? = null
     private var toolbarPanel: ToolbarPanelView? = null
     private var handwritingPanel: HandwritingPanelView? = null
+    private var shortcutGuidePanel: ShortcutGuidePanelView? = null
 
     private val preferenceListener =
         android.content.SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
@@ -336,6 +341,7 @@ class CustomBoardIME : InputMethodService(),
         voicePanel?.applyTheme(theme)
         toolbarPanel?.applyTheme(theme)
         handwritingPanel?.applyTheme(theme)
+        shortcutGuidePanel?.applyTheme(theme)
     }
 
     private fun reloadLayout() {
@@ -495,7 +501,7 @@ class CustomBoardIME : InputMethodService(),
         }
         return when (key.code) {
             KeyCodes.SPACE -> {
-                showImePicker()
+                switchToNextLanguage()
                 true
             }
 
@@ -723,11 +729,7 @@ class CustomBoardIME : InputMethodService(),
                 binding.toolbarView.setActive("number_row", numberRowManager.isEnabled)
             }
 
-            KeyCodes.LANGUAGE -> {
-                val language = layoutManager.switchToNextLanguage()
-                reloadLayout()
-                showToast(getString(R.string.language_switched, language))
-            }
+            KeyCodes.LANGUAGE -> switchToNextLanguage()
 
             KeyCodes.EMOJI -> openPanel(PanelType.EMOJI)
             KeyCodes.CLIPBOARD -> openPanel(PanelType.CLIPBOARD)
@@ -735,6 +737,9 @@ class CustomBoardIME : InputMethodService(),
             KeyCodes.TEXT_TOOLS -> openPanel(PanelType.TEXT_TOOLS)
             KeyCodes.HANDWRITING -> openPanel(PanelType.HANDWRITING)
             KeyCodes.INSERT_TAB -> inputLogic.insertTab()
+            KeyCodes.INSERT_DATE -> insertFormattedDate()
+            KeyCodes.INSERT_TIME -> insertFormattedTime()
+            KeyCodes.SHORTCUT_CHEATSHEET -> openPanel(PanelType.SHORTCUT_GUIDE)
             KeyCodes.GIF -> openPanel(PanelType.MEDIA)
             KeyCodes.STICKER -> openPanel(PanelType.MEDIA)
             KeyCodes.SEARCH -> openPanel(PanelType.SEARCH)
@@ -815,6 +820,18 @@ class CustomBoardIME : InputMethodService(),
         }
     }
 
+    private fun insertFormattedDate() {
+        val value = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(Date())
+        commitTextOrRoute(value)
+        refreshSuggestions()
+    }
+
+    private fun insertFormattedTime() {
+        val value = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Date())
+        commitTextOrRoute(value)
+        refreshSuggestions()
+    }
+
     private fun switchMode(mode: KeyboardMode) {
         layoutManager.setMode(mode)
         reloadLayout()
@@ -851,7 +868,7 @@ class CustomBoardIME : InputMethodService(),
     // ------------------------------------------------------------------
 
     private enum class PanelType {
-        TOOLBAR, HANDWRITING, EMOJI, CLIPBOARD, AI, MEDIA, TEXT_TOOLS, CURSOR, SEARCH, RESIZE, VOICE, SUGGESTIONS
+        TOOLBAR, HANDWRITING, EMOJI, CLIPBOARD, AI, MEDIA, TEXT_TOOLS, CURSOR, SEARCH, RESIZE, VOICE, SUGGESTIONS, SHORTCUT_GUIDE
     }
 
     private fun openPanel(type: PanelType) {
@@ -886,6 +903,11 @@ class CustomBoardIME : InputMethodService(),
             PanelType.MEDIA -> (mediaPanel ?: MediaPanelView(this).also {
                 it.listener = this
                 mediaPanel = it
+            })
+
+            PanelType.SHORTCUT_GUIDE -> (shortcutGuidePanel ?: ShortcutGuidePanelView(this).also {
+                it.onClose = { hidePanel() }
+                shortcutGuidePanel = it
             })
 
             PanelType.TEXT_TOOLS -> (textToolsPanel ?: TextToolsPanelView(this).also {
@@ -1260,6 +1282,12 @@ class CustomBoardIME : InputMethodService(),
         if (section != null) intent.putExtra(SettingsActivity.EXTRA_SECTION, section)
         runCatching { startActivity(intent) }
         requestHideSelf(0)
+    }
+
+    private fun switchToNextLanguage() {
+        val language = layoutManager.switchToNextLanguage()
+        reloadLayout()
+        showToast(getString(R.string.language_switched, language))
     }
 
     private fun showImePicker() {

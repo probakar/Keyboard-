@@ -41,6 +41,9 @@ data class ToolbarItem(
             ToolbarItem("number_row", R.string.toolbar_number_row, R.drawable.ic_number_row, KeyCodes.MODE_NUMBER_ROW, true),
             ToolbarItem("incognito", R.string.toolbar_incognito, R.drawable.ic_incognito, KeyCodes.INCOGNITO, true),
             ToolbarItem("contacts", R.string.toolbar_contacts, R.drawable.ic_contacts, KeyCodes.CONTACTS),
+            ToolbarItem("insert_date", R.string.toolbar_insert_date, R.drawable.ic_date, KeyCodes.INSERT_DATE),
+            ToolbarItem("insert_time", R.string.toolbar_insert_time, R.drawable.ic_history, KeyCodes.INSERT_TIME),
+            ToolbarItem("shortcuts", R.string.toolbar_shortcut_guide, R.drawable.ic_info, KeyCodes.SHORTCUT_CHEATSHEET),
             ToolbarItem("settings", R.string.toolbar_settings, R.drawable.ic_settings, KeyCodes.SETTINGS)
         )
 

@@ -112,5 +112,10 @@
             android:key="pref_shortcuts_enabled"
             android:summary="@string/pref_shortcuts_summary"
             android:title="@string/pref_shortcuts_title" />
+
+        <Preference
+            android:key="action_edit_shortcuts"
+            android:summary="@string/shortcut_editor_summary"
+            android:title="@string/pref_shortcuts_title" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -340,7 +340,34 @@ class PreferencesManager private constructor(context: Context) {
         prefs.unregisterOnSharedPreferenceChangeListener(listener)
     }
 
-    /** Snapshot of every preference, used by backup / restore. */
+    /** Snapshot of user settings for export; excludes API credentials and transient `state_*` data. */
+    fun snapshotForBackup(): Map<String, Any?> = prefs.all.filterKeys(::isBackupablePreference)
+
+    /** Applies a validated settings snapshot while preserving credentials and app runtime state. */
+    fun restoreSnapshot(snapshot: Map<String, Any?>) {
+        val safeValues = snapshot.filterKeys(::isBackupablePreference)
+        val editor = prefs.edit()
+        prefs.all.keys.filter { isBackupablePreference(it) && it !in safeValues }
+            .forEach { editor.remove(it) }
+        safeValues.forEach { (key, value) ->
+            when (value) {
+                is Boolean -> editor.putBoolean(key, value)
+                is Int -> editor.putInt(key, value)
+                is Long -> editor.putLong(key, value)
+                is Float -> editor.putFloat(key, value)
+                is String -> editor.putString(key, value)
+                is Set<*> -> editor.putStringSet(key, value.filterIsInstance<String>().toSet())
+            }
+        }
+        editor.apply()
+    }
+
+    private fun isBackupablePreference(key: String): Boolean =
+        key.startsWith("pref_") && key !in setOf(
+            Prefs.AI_API_KEY, Prefs.GIPHY_API_KEY, Prefs.TENOR_API_KEY
+        )
+
+    /** Full in-process snapshot, used by diagnostics and tests. */
     fun snapshot(): Map<String, Any?> = prefs.all
 
     fun resetToDefaults() {

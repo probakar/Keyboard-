@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    name: Build debug APK
+    name: Build debug and optimized APKs
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
@@ -112,6 +112,21 @@ jobs:
         run: gradle lintDebug --stacktrace
         continue-on-error: true
 
+      - name: Build optimized release APKs
+        id: build_release
+        run: |
+          set -o pipefail
+          gradle assembleRelease --stacktrace --console=plain 2>&1 | tee release.log
+
+      - name: Upload optimized release APKs
+        if: always() && steps.build_release.outcome == 'success'
+        uses: actions/upload-artifact@v6
+        with:
+          name: CustomBoard-optimized-release-apks
+          path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Upload APK
         if: always() && steps.build_apk.outcome == 'success'
         uses: actions/upload-artifact@v6
@@ -129,6 +144,7 @@ jobs:
           path: |
             build.log
             test.log
+            release.log
             app/build/reports/
             app/build/test-results/
           if-no-files-found: ignore

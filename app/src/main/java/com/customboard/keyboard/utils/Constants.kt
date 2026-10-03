@@ -58,6 +58,9 @@ object KeyCodes {
     const val COMPOSE = -43
     const val HANDWRITING = -44
     const val INSERT_TAB = -45
+    const val INSERT_DATE = -46
+    const val INSERT_TIME = -47
+    const val SHORTCUT_CHEATSHEET = -48
 }
 
 /** SharedPreferences keys. These are identical to the keys used in res/xml/prefs_*.xml. */
@@ -117,6 +120,8 @@ object Prefs {
     const val AI_HISTORY = "pref_ai_history"
     const val AI_CUSTOM_PROMPTS = "pref_ai_custom_prompts"
     const val AI_CONSENT = "pref_ai_consent"
+    const val GIPHY_API_KEY = "pref_giphy_api_key"
+    /** Legacy key name kept only to migrate encrypted Tenor keys out of use. */
     const val TENOR_API_KEY = "pref_tenor_api_key"
 
     // Sound & haptics
@@ -226,7 +231,10 @@ object Constants {
     const val AI_TIMEOUT_SECONDS = 45L
     const val GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/"
     const val GEMINI_KEY_URL = "https://aistudio.google.com/app/apikey"
-    const val TENOR_BASE_URL = "https://tenor.googleapis.com/v2/"
+    const val GIPHY_KEY_URL = "https://developers.giphy.com/dashboard/"
+    const val THEME_STORE_CATALOG_URL =
+        "https://raw.githubusercontent.com/probakar/Keyboard-/arena/01a10043-keyboard/theme-store/catalog.json"
+    const val GIPHY_BASE_URL = "https://api.giphy.com/v1/"
     const val TRANSLATE_URL = "https://translate.googleapis.com/translate_a/single"
     const val PROJECT_URL = "https://github.com/sufyanmoon9090/Keyboard-"
     const val SECURE_PREFS = "customboard_secure"

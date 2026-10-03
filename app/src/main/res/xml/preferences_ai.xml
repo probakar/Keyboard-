@@ -83,8 +83,14 @@
     <PreferenceCategory android:title="@string/settings_media">
 
         <Preference
-            android:key="action_tenor_key"
-            android:title="@string/tenor_api_key_title" />
+            android:key="action_giphy_key"
+            android:summary="@string/pref_giphy_key_summary"
+            android:title="@string/pref_giphy_key_title" />
+
+        <Preference
+            android:key="action_get_giphy_key"
+            android:summary="@string/giphy_get_key_summary"
+            android:title="@string/giphy_get_key_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_privacy">

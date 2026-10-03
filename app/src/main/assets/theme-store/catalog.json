@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "themes": [
+    {
+      "id": "aurora-glass",
+      "name": "Aurora Glass",
+      "description": "Deep blue keys with an electric cyan glow and a night-sky gradient.",
+      "previewColor": "#80D8FF",
+      "theme": "themes/aurora-glass.json"
+    },
+    {
+      "id": "sakura-milk",
+      "name": "Sakura Milk",
+      "description": "A soft rose-and-cream palette with warm pink accents.",
+      "previewColor": "#E85D91",
+      "theme": "themes/sakura-milk.json"
+    },
+    {
+      "id": "emerald-garden",
+      "name": "Emerald Garden",
+      "description": "Calm forest greens, pale mint lettering, and a subtle gradient.",
+      "previewColor": "#8EE0B3",
+      "theme": "themes/emerald-garden.json"
+    },
+    {
+      "id": "violet-dusk",
+      "name": "Violet Dusk",
+      "description": "A low-light violet palette with lavender highlights.",
+      "previewColor": "#C4A7FF",
+      "theme": "themes/violet-dusk.json"
+    }
+  ]
+}

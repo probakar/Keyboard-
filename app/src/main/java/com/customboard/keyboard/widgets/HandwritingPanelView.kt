@@ -17,7 +17,7 @@ import com.customboard.keyboard.handwriting.DigitalInkHandwritingRecognizer
 import com.customboard.keyboard.theme.ThemeColors
 import com.customboard.keyboard.theme.ThemeManager
 import com.customboard.keyboard.utils.dpToPx
-import com.google.mlkit.vision.digitalink.Ink
+import com.google.mlkit.vision.digitalink.recognition.Ink
 
 /** Drawing pad and language selector for offline-after-download handwriting input. */
 class HandwritingPanelView @JvmOverloads constructor(

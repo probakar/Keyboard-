@@ -1,0 +1,10 @@
+{
+  "name": "Sakura Milk",
+  "background": "#FCE7EF",
+  "backgroundEnd": "#FFF5F8",
+  "keyBackground": "#FFFFFF",
+  "keyText": "#592339",
+  "accent": "#E85D91",
+  "specialKey": "#F4C7D8",
+  "gradient": true
+}

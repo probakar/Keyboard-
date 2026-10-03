@@ -28,9 +28,13 @@ class KeyboardLayoutManager(private val context: Context) {
         private set
 
     private var lastShiftTap = 0L
+    private var editorTextMode = KeyboardMode.LETTERS
 
-    fun currentLayout(): KeyboardLayout =
-        LayoutFactory.create(language, mode, prefs.numberRow && mode == KeyboardMode.LETTERS)
+    fun currentLayout(): KeyboardLayout = LayoutFactory.create(
+        language,
+        mode,
+        prefs.numberRow && (mode == KeyboardMode.LETTERS || mode == KeyboardMode.EMAIL || mode == KeyboardMode.URL)
+    )
 
     fun isRtl(): Boolean = LayoutFactory.isRtl(language)
 
@@ -45,24 +49,32 @@ class KeyboardLayoutManager(private val context: Context) {
     // ------------------------------------------------------------------
 
     fun setMode(newMode: KeyboardMode) {
-        mode = newMode
-        if (newMode != KeyboardMode.LETTERS) shiftState = ShiftState.OFF
+        mode = if (newMode == KeyboardMode.LETTERS &&
+            (editorTextMode == KeyboardMode.EMAIL || editorTextMode == KeyboardMode.URL)
+        ) editorTextMode else newMode
+        if (mode != KeyboardMode.LETTERS && mode != KeyboardMode.EMAIL && mode != KeyboardMode.URL) {
+            shiftState = ShiftState.OFF
+        }
     }
 
     fun toggleSymbols() {
-        mode = when (mode) {
-            KeyboardMode.LETTERS -> KeyboardMode.SYMBOLS
-            else -> KeyboardMode.LETTERS
+        mode = if (mode == KeyboardMode.SYMBOLS || mode == KeyboardMode.SYMBOLS_2) {
+            editorTextMode
+        } else {
+            KeyboardMode.SYMBOLS
         }
     }
 
     /** Chooses the best page for the editor that just got focus. */
     fun adaptToEditor(info: EditorInfo?) {
-        mode = when {
+        editorTextMode = when {
             KeyboardUtils.isPhoneField(info) -> KeyboardMode.PHONE
             KeyboardUtils.isNumberField(info) -> KeyboardMode.NUMPAD
+            KeyboardUtils.isEmailField(info) -> KeyboardMode.EMAIL
+            KeyboardUtils.isUrlField(info) -> KeyboardMode.URL
             else -> KeyboardMode.LETTERS
         }
+        mode = editorTextMode
     }
 
     // ------------------------------------------------------------------

@@ -9,7 +9,7 @@ import android.view.View
 import com.customboard.keyboard.theme.ThemeColors
 import com.customboard.keyboard.theme.ThemeManager
 import com.customboard.keyboard.utils.dpToPx
-import com.google.mlkit.vision.digitalink.Ink
+import com.google.mlkit.vision.digitalink.recognition.Ink
 
 /** Touch-and-stylus drawing surface that keeps timed strokes for digital-ink recognition. */
 class HandwritingCanvasView(context: Context) : View(context) {

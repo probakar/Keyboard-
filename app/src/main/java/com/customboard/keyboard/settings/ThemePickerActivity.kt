@@ -1,5 +1,7 @@
 package com.customboard.keyboard.settings
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -7,24 +9,49 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.customboard.keyboard.R
 import com.customboard.keyboard.databinding.ActivityThemePickerBinding
 import com.customboard.keyboard.keyboard.KeyboardRenderer
+import com.customboard.keyboard.theme.BackgroundImageManager
 import com.customboard.keyboard.theme.ThemeColors
 import com.customboard.keyboard.theme.ThemeManager
 import com.customboard.keyboard.theme.ThemePresets
 import com.customboard.keyboard.utils.dpToPx
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-/** Visual theme gallery: every preset is drawn as a miniature keyboard. */
+/** Theme gallery with custom editing, an online catalog and local photo backgrounds. */
 class ThemePickerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityThemePickerBinding
     private val renderer by lazy { KeyboardRenderer(this) }
     private val themeManager by lazy { ThemeManager.getInstance(this) }
     private val prefs by lazy { PreferencesManager.getInstance(this) }
+
+    private val chooseBackground = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri == null) return@registerForActivityResult
+        binding.buttonGalleryBackground.isEnabled = false
+        lifecycleScope.launch {
+            val saved = withContext(Dispatchers.IO) {
+                BackgroundImageManager.saveFromUri(this@ThemePickerActivity, uri)
+            }
+            if (saved) {
+                themeManager.invalidate()
+                toast(R.string.theme_photo_applied)
+            } else {
+                toast(R.string.theme_photo_failed)
+            }
+            updateBackgroundButton()
+            binding.buttonGalleryBackground.isEnabled = true
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +62,39 @@ class ThemePickerActivity : AppCompatActivity() {
         setTitle(R.string.settings_theme)
 
         binding.themeGrid.layoutManager = GridLayoutManager(this, 2)
+        binding.buttonEditTheme.setOnClickListener {
+            startActivity(Intent(this, ThemeStudioActivity::class.java))
+        }
+        binding.buttonThemeStore.setOnClickListener {
+            startActivity(Intent(this, ThemeStoreActivity::class.java))
+        }
+        binding.buttonGalleryBackground.setOnClickListener {
+            chooseBackground.launch("image/*")
+        }
+        binding.buttonClearBackground.setOnClickListener {
+            BackgroundImageManager.clear(this)
+            themeManager.invalidate()
+            updateBackgroundButton()
+            toast(R.string.theme_photo_removed)
+        }
+        showThemes()
+        updateBackgroundButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::binding.isInitialized) showThemes()
+        updateBackgroundButton()
+    }
+
+    private fun showThemes() {
         binding.themeGrid.adapter = ThemeAdapter(availableThemes())
+    }
+
+    private fun updateBackgroundButton() {
+        if (::binding.isInitialized) {
+            binding.buttonClearBackground.isEnabled = BackgroundImageManager.hasImage(this)
+        }
     }
 
     /** Every preset, plus Material You on Android 12+ and the user's own theme. */
@@ -60,6 +119,8 @@ class ThemePickerActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun toast(message: Int) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
     private inner class ThemeAdapter(private val themes: List<ThemeColors>) :
         RecyclerView.Adapter<ThemeAdapter.Holder>() {

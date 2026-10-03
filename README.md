@@ -35,14 +35,18 @@ built on Gemini and on-device ML Kit.
 
 | | |
 |---|---|
-| **121 Kotlin files, ~14 000 lines** | No stubs, no `TODO`s, no placeholder implementations |
+| **131 Kotlin files, ~16 500 lines** | No stubs, no `TODO`s, no placeholder implementations |
 | **Custom renderer** | Every key is drawn on a `Canvas`; `android.inputmethodservice.KeyboardView` is never used |
 | **Glide typing** | Shape-matching recogniser with bigram re-ranking and a live gesture trail |
 | **Autocorrect** | Keyboard-aware Damerau-Levenshtein distance, 3 962-word dictionary, 196 bigrams, learned vocabulary |
 | **Clipboard** | Room database, pinning, categories, 1 h → forever retention, 500-item cap |
 | **AI panel** | 18 writing tools: proofread, rewrite, 8 tones, translate, smart reply, compose, summarise … |
-| **Themes** | 15 presets + Material You dynamic colour + a custom HSV theme creator |
+| **Themes** | 15 presets + Material You + live custom studio + online catalog + gallery photo backgrounds |
+| **Handwriting** | On-device Digital Ink 19.0.0; model downloads on demand, including Urdu and multiple scripts |
+| **GIF search** | GIPHY v1 API, user-owned encrypted key, GIPHY attribution |
 | **Languages** | English (US/UK), Urdu, Arabic, Hindi, French, German, Spanish, Dvorak — RTL aware |
+| **Editor-aware layouts** | Dedicated email and URL rows with `@`, `.com`, `www.` and `/` shortcuts |
+| **APK size** | R8 code/resource shrinking, language-resource filtering and per-ABI APK splits |
 | **Modes** | One-handed, floating (draggable), split, resizable, number row |
 | **Privacy** | No analytics, no tracking, no telemetry. Incognito mode + Quick Settings tile |
 
@@ -136,7 +140,7 @@ incognito mode or in password fields.
 <summary><strong>5. Emoji, stickers and GIFs (59–75)</strong></summary>
 
 1 052-entry emoji table · 9 categories with a tab strip · search by name and keyword · recents and
-frequency ranking · skin-tone variant picker · kaomoji library · sticker packs · Tenor GIF search
+frequency ranking · skin-tone variant picker · kaomoji library · sticker packs · GIPHY GIF search
 with an in-memory `LruCache` · GIFs are shared through a `FileProvider` content URI
 (`InputConnectionCompat.commitContent`) with a plain-URL fallback for apps that refuse rich
 content.
@@ -146,8 +150,9 @@ content.
 <summary><strong>6. Themes and appearance (76–100)</strong></summary>
 
 15 presets (light, dark, AMOLED, Material You, blue, green, purple, red, ocean, sunset, forest,
-candy, mono, midnight, custom) · Material You dynamic colour on Android 12+ · custom theme creator
-with an HSV picker · gradients · background images with automatic palette extraction · key shapes
+candy, mono, midnight, custom) · Material You dynamic colour on Android 12+ · live custom-theme
+studio with HSV colour controls and keyboard preview · community theme catalog with offline fallback
+· JSON theme import · downscaled gallery photo backgrounds · gradients · key shapes
 (rounded, pill, square, circle, flat) · key borders · 7 fonts · adjustable key font size, corner
 radius, keyboard height, bottom padding and opacity · automatic light/dark switching.
 </details>
@@ -286,7 +291,7 @@ gradle wrapper --gradle-version 8.7
 ./gradlew assembleDebug          # debug APK -> app/build/outputs/apk/debug/
 ./gradlew testDebugUnitTest      # unit tests
 ./gradlew lintDebug              # Android Lint
-./gradlew assembleRelease        # minified release build
+./gradlew assembleRelease        # R8/resource-shrunk ABI APKs plus a universal APK
 ```
 
 > `gradle/wrapper/gradle-wrapper.jar` is a binary and is not stored in the repository. `gradlew`
@@ -294,7 +299,7 @@ gradle wrapper --gradle-version 8.7
 
 ### Signing a release
 
-Create `keystore.properties` in the project root (it is git-ignored):
+For production distribution, create `keystore.properties` in the project root (it is git-ignored):
 
 ```properties
 storeFile=/absolute/path/to/release.jks
@@ -302,6 +307,9 @@ storePassword=…
 keyAlias=…
 keyPassword=…
 ```
+
+If no private keystore is configured, `assembleRelease` uses the standard debug signing key so the
+optimized APK remains installable for testing. Do not use that fallback for a public release.
 
 ---
 
@@ -316,9 +324,9 @@ app/src/main/java/com/customboard/keyboard/
 ├── widgets/                      KeyboardView, CandidateView, Toolbar and every panel
 ├── autocorrect/                  Dictionary, spell checker, prediction, grammar, personal words
 ├── clipboard/                    Room entity, DAO, database, manager, retention, pinning
-├── emoji/                        Emoji table, search, recents, kaomoji, stickers, Tenor GIFs
+├── emoji/                        Emoji table, search, recents, kaomoji, stickers, GIPHY GIFs
 ├── ai/                           Gemini client, prompts, writing assistant, ML Kit wrappers
-├── theme/                        Theme model, 15 presets, dynamic colour, custom creator, fonts
+├── theme/                        Theme model, presets, dynamic colour, studio, photo backgrounds, online store
 ├── textprocessing/               Transformers, Unicode stylisers, translator, calculator
 ├── gesture/                      Gesture detector, swipe handler, space-bar handler, mapper
 ├── voice/                        SpeechRecognizer manager and voice commands
@@ -326,7 +334,7 @@ app/src/main/java/com/customboard/keyboard/
 ├── toolbar/                      Toolbar items and ordering
 ├── privacy/                      Incognito manager, Quick Settings tile, encrypted storage
 ├── accessibility/                TalkBack announcements and accessibility preferences
-├── settings/                     Settings app, wizard, theme picker, dictionary, preferences
+├── settings/                     Settings app, wizard, theme studio/store, toolbar editor, dictionary
 └── utils/                        Key codes, preference keys, defaults, constants, extensions
 ```
 
@@ -367,8 +375,9 @@ app/src/main/java/com/customboard/keyboard/
 
 * **No analytics, no crash reporting, no tracking, no advertising IDs** — the dependency list
   contains nothing that could phone home.
-* The only network calls are the ones you trigger: a Gemini request, a Tenor GIF search, or an
-  ML Kit model download. ML Kit translation runs entirely on-device after the first download.
+* The only network calls are the ones you trigger: a Gemini request, a GIPHY GIF search, a theme
+  catalog/theme download, or an ML Kit model download. ML Kit translation runs on-device after its
+  first model download.
 * **Incognito mode** disables learning, clipboard capture and suggestions, and tints the keyboard
   so the state is always visible. A Quick Settings tile toggles it from anywhere.
 * Password and no-suggestion fields automatically disable learning and the clipboard.
@@ -382,8 +391,11 @@ app/src/main/java/com/customboard/keyboard/
 | Setting | Where |
 |---|---|
 | Gemini API key | Settings → AI writing tools → Gemini API key |
-| Tenor API key | Settings → AI writing tools → GIFs and stickers |
-| Default build-time keys | `app/build.gradle.kts` → `DEFAULT_GEMINI_API_KEY`, `DEFAULT_TENOR_API_KEY` (empty by default) |
+| GIPHY API key | Settings → AI writing tools → GIFs and stickers (user-supplied; encrypted on-device) |
+| Theme catalog | Theme and appearance → Browse themes → Theme store (falls back to bundled themes offline) |
+| Photo background | Theme and appearance → Browse themes → Use gallery photo |
+| Default build-time keys | `app/build.gradle.kts` → `DEFAULT_GEMINI_API_KEY`, `DEFAULT_GIPHY_API_KEY` (empty by default) |
+| Optimized APK | `assembleRelease` creates ABI-specific APKs plus a universal APK; release fallback uses the debug signing key |
 | Clipboard retention | Settings → Clipboard → Keep clips for |
 | Gesture bindings | `CustomGestureMapper` (stored as JSON in preferences) |
 | Toolbar order | Settings → Layout and modes → Customise toolbar |

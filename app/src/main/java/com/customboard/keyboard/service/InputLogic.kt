@@ -7,6 +7,7 @@ import android.view.inputmethod.ExtractedTextRequest
 import android.view.inputmethod.InputConnection
 import com.customboard.keyboard.autocorrect.AutoCorrectionEngine
 import com.customboard.keyboard.autocorrect.Suggestion
+import com.customboard.keyboard.autocorrect.TextShortcutExpander
 import com.customboard.keyboard.settings.PreferencesManager
 import com.customboard.keyboard.utils.Constants
 import com.customboard.keyboard.utils.KeyboardUtils
@@ -235,11 +236,16 @@ class InputLogic(
         val ic = connection() ?: return
         if (composing.isEmpty()) return
         val previous = previousWord()
-        val corrected = corrections.autoCorrectionFor(composing, previous)
+        val expansion = if (prefs.shortcutsEnabled) {
+            TextShortcutExpander.expand(composing, prefs.shortcuts)
+        } else {
+            null
+        }
+        val corrected = expansion ?: corrections.autoCorrectionFor(composing, previous)
         val finalWord = corrected ?: composing
         ic.setComposingText(finalWord, 1)
         ic.finishComposingText()
-        corrections.learn(finalWord, previous)
+        if (expansion == null) corrections.learn(finalWord, previous)
         composing = ""
     }
 

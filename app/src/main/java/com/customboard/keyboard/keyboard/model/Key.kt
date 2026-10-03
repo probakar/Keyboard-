@@ -71,7 +71,9 @@ enum class KeyboardMode {
     SYMBOLS,
     SYMBOLS_2,
     NUMPAD,
-    PHONE
+    PHONE,
+    EMAIL,
+    URL
 }
 
 /** Shift state machine: off -> shifted (one shot) -> caps lock. */

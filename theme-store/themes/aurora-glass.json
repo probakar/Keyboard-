@@ -1,0 +1,10 @@
+{
+  "name": "Aurora Glass",
+  "background": "#101A2E",
+  "backgroundEnd": "#243B5D",
+  "keyBackground": "#1D2B47",
+  "keyText": "#EDF4FF",
+  "accent": "#80D8FF",
+  "specialKey": "#30456D",
+  "gradient": true
+}

@@ -87,4 +87,17 @@
             android:icon="@drawable/ic_info"
             android:title="@string/settings_about" />
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/category_advanced">
+
+        <Preference
+            android:key="action_backup_settings"
+            android:summary="@string/pref_backup_summary"
+            android:title="@string/pref_backup_title" />
+
+        <Preference
+            android:key="action_restore_settings"
+            android:summary="@string/pref_restore_summary"
+            android:title="@string/pref_restore_title" />
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -19,6 +19,11 @@ import com.customboard.keyboard.theme.ThemeManager
 import com.customboard.keyboard.utils.dpToPx
 import com.customboard.keyboard.utils.gone
 import com.customboard.keyboard.utils.visible
+import okhttp3.Call
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.StyleSpan
+import android.graphics.Typeface
 
 /** Web search shortcuts plus contact lookup, driven by the selected or typed text. */
 class SearchPanelView @JvmOverloads constructor(
@@ -45,6 +50,8 @@ class SearchPanelView @JvmOverloads constructor(
     private val closeButton = ImageButton(context)
     private var theme: ThemeColors = ThemeManager.getInstance(context).current
     private var queryFocused = true
+    private var inlineSearchCall: Call? = null
+    private var inlineSearchToken = 0L
 
     init {
         orientation = VERTICAL
@@ -92,6 +99,9 @@ class SearchPanelView @JvmOverloads constructor(
             WebSearchManager.Provider.TRANSLATE to R.string.search_translate,
             WebSearchManager.Provider.DEFINITION to R.string.search_definition
         )
+        providerRow.addView(chip(context.getString(R.string.search_inline)) {
+            requestInlineSearch(currentQuery())
+        })
         providers.forEach { (provider, titleRes) ->
             providerRow.addView(chip(context.getString(titleRes)) {
                 webSearch.search(currentQuery(), provider)
@@ -174,7 +184,61 @@ class SearchPanelView @JvmOverloads constructor(
 
     private fun currentQuery(): String = queryField.text?.toString().orEmpty()
 
+    private fun requestInlineSearch(query: String) {
+        val trimmed = query.trim()
+        inlineSearchCall?.cancel()
+        inlineSearchCall = null
+        val token = ++inlineSearchToken
+        resultList.removeAllViews()
+        if (trimmed.isEmpty()) {
+            hintLabel.setText(R.string.search_nothing_selected)
+            hintLabel.visible()
+            return
+        }
+        hintLabel.setText(R.string.search_inline_loading)
+        hintLabel.visible()
+        inlineSearchCall = webSearch.searchInline(trimmed) { results, error ->
+            if (token == inlineSearchToken && currentQuery().trim() == trimmed) {
+                inlineSearchCall = null
+                renderInlineResults(results, error != null)
+            }
+        }
+    }
+
+    private fun renderInlineResults(results: List<WebSearchManager.InlineResult>, failed: Boolean) {
+        resultList.removeAllViews()
+        if (results.isEmpty()) {
+            hintLabel.setText(
+                if (failed) R.string.search_inline_error else R.string.search_inline_no_results
+            )
+            hintLabel.visible()
+            return
+        }
+        hintLabel.gone()
+        results.forEach { result ->
+            val title = result.title.ifBlank { currentQuery() }
+            val content = SpannableString("$title\n${result.snippet}")
+            content.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            val row = TextView(context).apply {
+                text = content
+                textSize = 13f
+                maxLines = 4
+                setPadding(context.dpToPx(14f).toInt(), context.dpToPx(10f).toInt(),
+                    context.dpToPx(14f).toInt(), context.dpToPx(10f).toInt())
+                background = ContextCompat.getDrawable(context, R.drawable.bg_suggestion_ripple)
+                setTextColor(theme.keyText)
+                isClickable = result.url.isNotBlank()
+                isFocusable = isClickable
+                if (isClickable) setOnClickListener { webSearch.open(result.url) }
+            }
+            resultList.addView(row, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
+        }
+    }
+
     private fun refreshContacts(query: String) {
+        inlineSearchToken++
+        inlineSearchCall?.cancel()
+        inlineSearchCall = null
         resultList.removeAllViews()
         if (!contacts.isEnabled) {
             hintLabel.text = context.getString(R.string.search_contacts_disabled)
@@ -238,6 +302,13 @@ class SearchPanelView @JvmOverloads constructor(
     }
 
     override fun onEnterPressed() {
-        webSearch.search(currentQuery())
+        requestInlineSearch(currentQuery())
+    }
+
+    override fun onDetachedFromWindow() {
+        inlineSearchToken++
+        inlineSearchCall?.cancel()
+        inlineSearchCall = null
+        super.onDetachedFromWindow()
     }
 }

@@ -56,6 +56,8 @@ object LayoutFactory {
         KeyboardMode.SYMBOLS_2 -> SymbolPage2Layout.create()
         KeyboardMode.NUMPAD -> NumpadLayout.create()
         KeyboardMode.PHONE -> PhonepadLayout.create()
+        KeyboardMode.EMAIL -> EditorSpecificLayouts.email(letters(languageCode, withNumberRow))
+        KeyboardMode.URL -> EditorSpecificLayouts.url(letters(languageCode, withNumberRow))
         KeyboardMode.LETTERS -> letters(languageCode, withNumberRow)
     }
 

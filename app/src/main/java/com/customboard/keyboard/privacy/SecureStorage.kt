@@ -18,8 +18,8 @@ import javax.crypto.spec.GCMParameterSpec
 /**
  * AES-256-GCM encrypted storage backed by the Android Keystore.
  *
- * Used for the Gemini / Tenor API keys so they are never written to disk in clear text and
- * never leave the device. No third-party dependency is required.
+ * Used for the Gemini / GIPHY API keys so they are never written to disk in clear text. Keys
+ * are only sent to their provider when the user explicitly runs the corresponding cloud feature.
  */
 class SecureStorage private constructor(context: Context) {
 
@@ -29,15 +29,23 @@ class SecureStorage private constructor(context: Context) {
         appContext.getSharedPreferences(Constants.SECURE_PREFS, Context.MODE_PRIVATE)
     }
 
+    init {
+        // Tenor credentials are obsolete and cannot authenticate to GIPHY; discard them.
+        prefs.edit().remove(Prefs.TENOR_API_KEY).apply()
+    }
+
     /** Google AI Studio key used by [com.customboard.keyboard.ai.GeminiClient]. */
     var geminiApiKey: String
         get() = get(Prefs.AI_API_KEY) ?: BuildConfig.DEFAULT_GEMINI_API_KEY
         set(value) = put(Prefs.AI_API_KEY, value)
 
-    /** Tenor key used for GIF search. */
-    var tenorApiKey: String
-        get() = get(Prefs.TENOR_API_KEY) ?: BuildConfig.DEFAULT_TENOR_API_KEY
-        set(value) = put(Prefs.TENOR_API_KEY, value)
+    /** User-provided GIPHY key used for GIF search. */
+    var giphyApiKey: String
+        get() = get(Prefs.GIPHY_API_KEY) ?: BuildConfig.DEFAULT_GIPHY_API_KEY
+        set(value) {
+            put(Prefs.GIPHY_API_KEY, value)
+            put(Prefs.TENOR_API_KEY, null)
+        }
 
     fun put(key: String, value: String?) {
         if (value.isNullOrEmpty()) {

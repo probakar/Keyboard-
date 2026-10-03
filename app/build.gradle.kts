@@ -29,12 +29,23 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
+        resourceConfigurations += listOf("en", "ur", "hi", "ar")
 
         // API keys are NEVER hardcoded. They are entered by the user inside the app and
         // stored encrypted on-device. These fields only act as optional build-time defaults.
         buildConfigField("String", "DEFAULT_GEMINI_API_KEY", "\"\"")
-        buildConfigField("String", "DEFAULT_TENOR_API_KEY", "\"\"")
+        buildConfigField("String", "DEFAULT_GIPHY_API_KEY", "\"\"")
         buildConfigField("String", "GEMINI_ENDPOINT", "\"https://generativelanguage.googleapis.com/v1beta/models/\"")
+    }
+
+    // Keep a universal APK for easy installation, while publishing smaller per-ABI APKs too.
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("arm64-v8a", "armeabi-v7a", "x86_64")
+            isUniversalApk = true
+        }
     }
 
     signingConfigs {
@@ -56,15 +67,17 @@ android {
         }
         release {
             isMinifyEnabled = true
-            isShrinkResources = false
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // The repository has no private release key. Use the standard debug key for a
+            // locally installable test APK; production distribution must provide its own key.
             signingConfig = if (keystorePropertiesFile.exists()) {
                 signingConfigs.getByName("release")
             } else {
-                null
+                signingConfigs.getByName("debug")
             }
         }
     }
@@ -110,9 +123,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.material)
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
-    implementation(libs.androidx.viewpager2)
     implementation(libs.androidx.preference.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.palette.ktx)
@@ -120,8 +131,6 @@ dependencies {
 
     // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
@@ -132,7 +141,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 
-    // Networking (Gemini AI, Tenor GIF, translation)
+    // Networking (Gemini AI, GIPHY GIFs, translation)
     implementation(libs.okhttp)
 
     // Google ML Kit - on-device AI (works fully offline)
