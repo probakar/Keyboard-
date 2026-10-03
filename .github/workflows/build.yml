@@ -118,6 +118,22 @@ jobs:
           set -o pipefail
           gradle assembleRelease --stacktrace --console=plain 2>&1 | tee release.log
 
+      - name: Summarize APK sizes
+        if: steps.build_release.outcome == 'success'
+        shell: bash
+        run: |
+          {
+            echo '### Optimized release APK sizes'
+            echo '| APK | Size | Bytes |'
+            echo '|---|---:|---:|'
+            for apk in app/build/outputs/apk/release/*.apk; do
+              [ -f "$apk" ] || continue
+              bytes=$(stat -c '%s' "$apk")
+              human=$(du -h "$apk" | cut -f1)
+              printf '| `%s` | %s | %s |\n' "$(basename "$apk")" "$human" "$bytes"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload optimized release APKs
         if: always() && steps.build_release.outcome == 'success'
         uses: actions/upload-artifact@v6
