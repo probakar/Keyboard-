@@ -56,7 +56,7 @@ jobs:
           selected = set()
           for index, line in enumerate(source_lines):
               if re.search(
-                  r"error|failed|AAPT|not found|resource linking|Could not resolve|Exception|Caused by:|Execution failed",
+                  r"^e: |^w: |error|failed|AAPT|not found|resource linking|Could not resolve|Exception|Caused by:|Execution failed|Unresolved reference|Type mismatch|Overload resolution ambiguity",
                   line,
                   re.IGNORECASE,
               ):
