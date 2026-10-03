@@ -92,8 +92,10 @@ object KeyboardUtils {
         return cls == InputType.TYPE_CLASS_NUMBER || cls == InputType.TYPE_CLASS_DATETIME
     }
 
-    fun isPhoneField(info: EditorInfo?): Boolean =
-        ((info?.inputType ?: return false) and InputType.TYPE_MASK_CLASS) == InputType.TYPE_CLASS_PHONE
+    fun isPhoneField(info: EditorInfo?): Boolean {
+        val inputType = info?.inputType ?: return false
+        return (inputType and InputType.TYPE_MASK_CLASS) == InputType.TYPE_CLASS_PHONE
+    }
 
     fun isMultiLine(info: EditorInfo?): Boolean {
         val inputType = info?.inputType ?: return false

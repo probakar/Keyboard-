@@ -136,8 +136,9 @@ class PreferencesManager private constructor(context: Context) {
     val aiTemperature: Float
         get() = prefs.getInt(Prefs.AI_TEMPERATURE, Defaults.AI_TEMPERATURE).coerceIn(0, 100) / 100f
 
-    val aiTone: String
+    var aiTone: String
         get() = prefs.getString(Prefs.AI_TONE, Defaults.TONE) ?: Defaults.TONE
+        set(value) = prefs.edit().putString(Prefs.AI_TONE, value).apply()
 
     var aiTranslateTarget: String
         get() = prefs.getString(Prefs.AI_TRANSLATE_TARGET, Defaults.TRANSLATE_TARGET)

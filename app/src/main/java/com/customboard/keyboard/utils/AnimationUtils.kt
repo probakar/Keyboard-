@@ -9,18 +9,18 @@ import android.view.animation.OvershootInterpolator
 /** Lightweight animations used by the keyboard (kept short to stay under 16 ms frames). */
 object AnimationUtils {
 
-    fun pressScale(view: View) {
+    fun pressScale(view: View, pressed: Boolean) {
         view.animate().cancel()
+        val scale = if (pressed) 0.94f else 1f
+        val interpolator = if (pressed) {
+            AccelerateDecelerateInterpolator()
+        } else {
+            OvershootInterpolator(1.4f)
+        }
         view.animate()
-            .scaleX(0.94f).scaleY(0.94f)
-            .setDuration(55L)
-            .setInterpolator(AccelerateDecelerateInterpolator())
-            .withEndAction {
-                view.animate().scaleX(1f).scaleY(1f)
-                    .setDuration(75L)
-                    .setInterpolator(OvershootInterpolator(1.4f))
-                    .start()
-            }
+            .scaleX(scale).scaleY(scale)
+            .setDuration(if (pressed) 55L else 75L)
+            .setInterpolator(interpolator)
             .start()
     }
 
