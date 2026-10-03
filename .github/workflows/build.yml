@@ -89,7 +89,7 @@ jobs:
           selected = set()
           for index, line in enumerate(source_lines):
               if re.search(
-                  r"error|failed|Exception|AssertionError|expected:|but was|FAILURE|tests completed",
+                  r"^e: |^w: |error|failed|Exception|AssertionError|expected:|but was|FAILURE|tests completed|Unresolved reference|Type mismatch|Overload resolution ambiguity",
                   line,
                   re.IGNORECASE,
               ):
