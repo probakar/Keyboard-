@@ -52,13 +52,19 @@ jobs:
 
           log = Path("build.log")
           text = log.read_text(errors="replace") if log.exists() else "No build.log was produced."
-          lines = [line.strip() for line in text.splitlines() if re.search(
-              r"^e: |^FAILURE:|^What went wrong:|^Execution failed for task|^A problem occurred|^Could not ",
-              line,
-          )]
+          source_lines = text.splitlines()
+          selected = set()
+          for index, line in enumerate(source_lines):
+              if re.search(
+                  r"error|failed|AAPT|not found|resource linking|Could not resolve|Exception|Caused by:|Execution failed",
+                  line,
+                  re.IGNORECASE,
+              ):
+                  selected.update(range(max(0, index - 1), min(len(source_lines), index + 2)))
+          lines = [source_lines[index].strip() for index in sorted(selected)]
           if not lines:
-              lines = text.splitlines()[-25:]
-          for line in lines[-30:]:
+              lines = source_lines[-25:]
+          for line in lines[-40:]:
               message = line[:1000].replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
               print(f"::error title=Gradle build diagnostic::{message}")
           PY
