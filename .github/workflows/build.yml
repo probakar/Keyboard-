@@ -39,6 +39,7 @@ jobs:
       # Use the Gradle distribution installed above. This repository intentionally does not
       # commit gradle-wrapper.jar, so the CI build should not need to bootstrap one.
       - name: Build debug APK
+        id: build_apk
         run: |
           set -o pipefail
           gradle assembleDebug --stacktrace --console=plain 2>&1 | tee build.log
@@ -70,13 +71,43 @@ jobs:
           PY
 
       - name: Run unit tests
-        run: gradle testDebugUnitTest --stacktrace
+        id: unit_tests
+        run: |
+          set -o pipefail
+          gradle testDebugUnitTest --stacktrace --console=plain 2>&1 | tee test.log
+
+      - name: Surface unit test failure diagnostics
+        if: failure() && steps.unit_tests.outcome == 'failure'
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          log = Path("test.log")
+          text = log.read_text(errors="replace") if log.exists() else "No test.log was produced."
+          source_lines = text.splitlines()
+          selected = set()
+          for index, line in enumerate(source_lines):
+              if re.search(
+                  r"error|failed|Exception|AssertionError|expected:|but was|FAILURE|tests completed",
+                  line,
+                  re.IGNORECASE,
+              ):
+                  selected.update(range(max(0, index - 1), min(len(source_lines), index + 2)))
+          lines = [source_lines[index].strip() for index in sorted(selected)]
+          if not lines:
+              lines = source_lines[-30:]
+          for line in lines[-40:]:
+              message = line[:1000].replace("%", "%25")
+              print(f"::error title=Unit test diagnostic::{message}")
+          PY
 
       - name: Android Lint
         run: gradle lintDebug --stacktrace
         continue-on-error: true
 
       - name: Upload APK
+        if: always() && steps.build_apk.outcome == 'success'
         uses: actions/upload-artifact@v6
         with:
           name: CustomBoard-debug-apk
@@ -91,6 +122,7 @@ jobs:
           name: build-reports
           path: |
             build.log
+            test.log
             app/build/reports/
             app/build/test-results/
           if-no-files-found: ignore
