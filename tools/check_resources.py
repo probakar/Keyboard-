@@ -91,6 +91,7 @@ def collect_ids() -> None:
 
 R_PATTERN = re.compile(r'\bR\.(string|array|plurals|drawable|mipmap|color|dimen|layout|id|xml|raw|anim|style|bool|integer|font|styleable)\.([A-Za-z0-9_]+)')
 XML_PATTERN = re.compile(r'@(?:android:)?(string|array|plurals|drawable|mipmap|color|dimen|layout|id|xml|raw|anim|style|bool|integer|font)/([A-Za-z0-9_.]+)')
+APP_ATTR_PATTERN = re.compile(r'\bapp:([A-Za-z0-9_]+)')
 ANDROID_PREFIX = re.compile(r'@android:')
 
 # Names provided by AndroidX libraries rather than this module.
@@ -143,6 +144,10 @@ def check() -> int:
                     continue
                 if key not in defined.get(kind, set()):
                     problems.append(f"{path}: @{kind}/{res}")
+            for match in APP_ATTR_PATTERN.finditer(text):
+                attr = match.group(1)
+                if attr not in defined.get("attr", set()):
+                    problems.append(f"{path}: app:{attr}")
 
     manifest = os.path.join("app", "src", "main", "AndroidManifest.xml")
     with open(manifest, encoding="utf-8") as handle:

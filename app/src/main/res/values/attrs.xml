@@ -9,13 +9,11 @@
     </declare-styleable>
 
     <declare-styleable name="ColorPickerPreference">
-        <attr name="defaultColorValue" format="color" />
+        <attr name="defaultColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="SeekBarWithValuePreference">
-        <attr name="valueSuffix" format="string" />
-        <attr name="minValue" format="integer" />
-        <attr name="maxValue" format="integer" />
-        <attr name="stepValue" format="integer" />
+        <attr name="valueUnit" format="string" />
+        <attr name="min" format="integer" />
     </declare-styleable>
 </resources>

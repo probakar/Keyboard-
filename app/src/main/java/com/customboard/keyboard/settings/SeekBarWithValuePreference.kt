@@ -18,7 +18,9 @@ class SeekBarWithValuePreference @JvmOverloads constructor(
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.SeekBarWithValuePreference)
         unit = array.getString(R.styleable.SeekBarWithValuePreference_valueUnit).orEmpty()
+        val minimum = array.getInt(R.styleable.SeekBarWithValuePreference_min, min)
         array.recycle()
+        min = minimum
         showSeekBarValue = false
         isAdjustable = true
     }
