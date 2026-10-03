@@ -81,25 +81,12 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import re
 
           log = Path("test.log")
           text = log.read_text(errors="replace") if log.exists() else "No test.log was produced."
-          source_lines = text.splitlines()
-          selected = set()
-          for index, line in enumerate(source_lines):
-              if re.search(
-                  r"^e: |^w: |error|failed|Exception|AssertionError|expected:|but was|FAILURE|tests completed|Unresolved reference|Type mismatch|Overload resolution ambiguity",
-                  line,
-                  re.IGNORECASE,
-              ):
-                  selected.update(range(max(0, index - 1), min(len(source_lines), index + 2)))
-          lines = [source_lines[index].strip() for index in sorted(selected)]
-          if not lines:
-              lines = source_lines[-30:]
-          for line in lines[-40:]:
-              message = line[:1000].replace("%", "%25")
-              print(f"::error title=Unit test diagnostic::{message}")
+          excerpt = "\n".join(text.splitlines()[-150:])[:20000]
+          message = excerpt.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+          print(f"::error title=Unit test log tail::{message}")
           PY
 
       - name: Android Lint
