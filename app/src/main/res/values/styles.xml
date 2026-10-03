@@ -29,7 +29,7 @@
         <item name="android:textSize">13sp</item>
     </style>
 
-    <style name="CustomBoard.Toolbar.Icon">
+    <style name="CustomBoardToolbarIcon">
         <item name="android:layout_width">@dimen/toolbar_height</item>
         <item name="android:layout_height">@dimen/toolbar_height</item>
         <item name="android:padding">@dimen/toolbar_item_padding</item>

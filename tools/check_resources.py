@@ -32,6 +32,7 @@ VALUE_TAGS = {
 }
 
 defined: dict[str, set[str]] = defaultdict(set)
+implicit_style_parents: list[tuple[str, str]] = []
 
 
 def collect_values() -> None:
@@ -54,6 +55,11 @@ def collect_values() -> None:
                     kind = child.get("type") or "item"
                 if kind:
                     defined[kind].add(res_name.replace(".", "_") if kind == "style" else res_name)
+                    if child.tag == "style" and "." in res_name and not child.get("parent"):
+                        # Android infers a parent from dotted style names when `parent` is omitted.
+                        implicit_style_parents.append(
+                            (os.path.join(root, name), res_name.rsplit(".", 1)[0])
+                        )
                 if child.tag == "declare-styleable":
                     for attr in child:
                         attr_name = attr.get("name")
@@ -95,6 +101,11 @@ LIBRARY_PROVIDED = {
 
 def check() -> int:
     problems: list[str] = []
+
+    for path, parent in implicit_style_parents:
+        key = parent.replace(".", "_")
+        if key not in defined.get("style", set()) and parent not in LIBRARY_PROVIDED.get("style", set()):
+            problems.append(f"{path}: implicit parent style `{parent}`")
 
     for root, _dirs, files in os.walk(SRC):
         for name in files:
